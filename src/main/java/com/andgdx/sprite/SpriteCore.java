@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class SpriteCore extends EntityCore {
 	Texture texture;
 	protected TextureRegion textureRegion;
+	
 
 	
 	protected SpriteCore()

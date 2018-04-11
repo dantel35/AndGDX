@@ -17,6 +17,33 @@ public class EntityCore extends Actor implements IEntity {
 	Object entityType;
 	Scene parentScene;
 
+	
+	boolean flippedX;
+	boolean flippedY;
+	
+	
+	public void setFlippedX(boolean flippedX)
+	{
+		this.flippedX = flippedX;
+		this.setScale(-this.getScaleX(), this.getScaleY());
+	}
+	
+	public void setFlippedY(boolean flippedY)
+	{
+		this.flippedY = flippedY;
+		this.setScale(this.getScaleX(), -this.getScaleY());
+	}
+	
+	
+	
+	public boolean isFlippedX() {
+		return flippedX;
+	}
+
+	public boolean isFlippedY() {
+		return flippedY;
+	}
+
 	public EntityCore() {
 	}
 
@@ -77,13 +104,6 @@ public class EntityCore extends Actor implements IEntity {
 		super.setOrigin(x, y);
 	}
 
-	/**
-	 * Empty method.
-	 */
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-
-	}
 
 	public int getCenterX() {
 		return (int) (getX() + (getWidth() * 0.5f));
@@ -112,6 +132,13 @@ public class EntityCore extends Actor implements IEntity {
 	public void setUserData(Object object) {
 		userData = object;
 
+	}
+	/**
+	 * Empty method.
+	 */
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		
 	}
 
 	/*
@@ -145,6 +172,9 @@ public class EntityCore extends Actor implements IEntity {
 	{
 		this.parentScene=scene;
 	}
+	
+	
+	
 
 	/*
 	 * (non-Javadoc)
