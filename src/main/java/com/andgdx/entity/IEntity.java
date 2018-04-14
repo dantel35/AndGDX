@@ -9,8 +9,15 @@ public interface IEntity {
 	public float getX();
 	public float getY();
 	
+ 
+	
 	public float getWidth();
 	public float getHeight();
+	
+ 
+	
+	public int getFacingDirection();
+	public void setFacingDirection(int facingDirectionInDegrees);
 	
 	
 	public void setX(float x);

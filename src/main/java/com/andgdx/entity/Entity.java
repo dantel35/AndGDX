@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.utils.Align;
 
 public class Entity extends Group implements IEntity {
 
@@ -15,6 +16,8 @@ public class Entity extends Group implements IEntity {
 	private Object userData;
 	private Object entityType;
 	private Scene parentScene;
+//	private float lastX,lastY, lastWidth, lastHeight;
+	int facingDirectionInDegrees;
 
 	public Entity() {
 
@@ -173,5 +176,110 @@ public class Entity extends Group implements IEntity {
 	public void clearEntityModifiers() {
 	this.clearActions();
 		
+	}
+
+//	public float getLastX() {
+//		// TODO Auto-generated method stub
+//		return this.lastX;
+//	}
+//
+//	public float getLastY() {
+//		// TODO Auto-generated method stub
+//		return this.lastY;
+//	}
+//
+//	public float getLastWidth() {
+//		// TODO Auto-generated method stub
+//		return this.lastWidth;
+//	}
+//
+//	public float getLastHeight() {
+//		// TODO Auto-generated method stub
+//		return this.lastHeight;
+//	}
+//	
+//	////////
+//	public void setX (float x) {
+//		this.lastX = super.getX();
+//		super.setX(x);
+//	}
+//
+//	public void setY (float y) {
+//		this.lastY = super.getY();
+//		super.setX(y);
+//	}
+//	
+//	/** Sets the position of the actor's bottom left corner. */
+//	public void setPosition (float x, float y) {
+//		this.setX(x);
+//		this.setY(y);
+//		super.setPosition(x, y);
+//	}
+//
+//	/** Sets the position using the specified {@link Align alignment}. Note this may set the position to non-integer
+//	 * coordinates. */
+//	public void setPosition (float x, float y, int alignment) {
+//		this.setX(x);
+//		this.setY(y);
+//		super.setPosition(x, y, alignment);
+//	}
+//
+//	/** Add x and y to current position */
+//	public void moveBy (float x, float y) {
+//		this.lastX = super.getX();
+//		this.lastY = super.getY();
+//		super.moveBy(x, y);
+//	}
+//	
+//	/** Set bounds the x, y, width, and height. */
+//	public void setBounds (float x, float y, float width, float height) {
+//		this.lastX = super.getX();
+//		this.lastY = super.getY();
+//		this.lastWidth = super.getWidth();
+//		this.lastHeight = super.getHeight();
+//		super.setBounds(x, y, width, height);
+//	}
+//	
+//	
+//	/** Sets the width and height. */
+//	public void setSize (float width, float height) {
+//		this.lastWidth = super.getWidth();
+//		this.lastHeight = super.getHeight();
+//		super.setSize(width, height);
+//	}
+//
+//	/** Adds the specified size to the current size. */
+//	public void sizeBy (float size) {
+//		this.lastWidth = super.getWidth();
+//		this.lastHeight = super.getHeight();
+//		super.sizeBy(size);
+//	}
+//
+//	/** Adds the specified size to the current size. */
+//	public void sizeBy (float width, float height) {
+//		this.lastWidth = super.getWidth();
+//		this.lastHeight = super.getHeight();
+//		super.sizeBy(width, height);
+//	}
+//	
+//	public void setWidth (float width) {
+//		this.lastWidth = super.getWidth();
+//		super.setWidth(width);
+//	}
+//
+//
+//	public void setHeight (float height) {
+//		this.lastHeight = super.getHeight();
+//		super.setHeight(height);
+//	}
+
+	public int getFacingDirection() {
+		// TODO Auto-generated method stub
+		return facingDirectionInDegrees;
+	}
+
+	public void setFacingDirection(int facingDirectionInDegrees) {
+		// TODO Auto-generated method stub
+		this.facingDirectionInDegrees = facingDirectionInDegrees;
 	}
 }

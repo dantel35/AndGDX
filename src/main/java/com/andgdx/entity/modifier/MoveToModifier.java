@@ -1,6 +1,8 @@
 package com.andgdx.entity.modifier;
 
+import com.andgdx.entity.IEntity;
 import com.andgdx.entity.modifier.listener.IEntityModifierListener;
+import com.andgdx.util.AndGDXMathUtils;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 //import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -16,6 +18,8 @@ public class MoveToModifier extends TemporalAction {
 	private int alignment = Align.bottomLeft;
 	protected IEntityModifierListener modifierListener;
 	private boolean fromTo;
+	private boolean firstTimeExec = true;
+	private boolean notFinishedYet = true;
 
 	protected void begin() {
 		if(fromTo == false)
@@ -34,14 +38,39 @@ public class MoveToModifier extends TemporalAction {
 	}
 
 	private void checkListener(float percent) {
-		if(modifierListener != null)
-		if (percent >= 1  ) {
+		
+		if (percent >= 1) {
+			if(modifierListener != null)
 			modifierListener.onFinished();
-		} else if (percent <= 0.1f  ) {
+			
+			notFinishedYet = false;
+		} else if (firstTimeExec  ) {
+			if(modifierListener != null)
 			modifierListener.onStarted();
+			
+			firstTimeExec = false;
+			updateFacingDirection();
 		}
 
 	}
+	
+	private void updateFacingDirection()
+	{
+		IEntity entity;
+		if (actor instanceof IEntity)
+		{
+			entity = (IEntity) actor;
+			entity.setFacingDirection((int) AndGDXMathUtils.calculateRotationAngle(startX, startY, endX, endY));
+			System.out.println("face dir " + entity.getFacingDirection());
+		}
+	 
+	}
+	
+	
+	
+	
+	
+	
 	public void setModifierListener(IEntityModifierListener listener)
 	{
 		this.modifierListener = listener;
@@ -52,6 +81,8 @@ public class MoveToModifier extends TemporalAction {
 		alignment = Align.bottomLeft;
 		modifierListener = null;
 		fromTo = false;
+		firstTimeExec = true;
+		notFinishedYet = true;
 	}
 	
 	public void restart () {

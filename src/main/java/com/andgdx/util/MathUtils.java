@@ -415,6 +415,9 @@ public final class MathUtils {
 		return newVector;
 	}
 	
+	
+
+	
 
 	// ===========================================================
 	// Inner and Anonymous Classes

@@ -8,10 +8,13 @@ version = '1.0'
 
 repositories {
    mavenCentral()
+   maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 }
 
 dependencies {
    compile 'com.badlogicgames.gdx:gdx:1.9.6'
+   compile "com.badlogicgames.ashley:ashley:1.7.0"
     
 }
 

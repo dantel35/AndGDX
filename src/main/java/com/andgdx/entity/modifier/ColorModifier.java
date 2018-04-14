@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
  * 
  * @author Nathan Sweet
  */
-public class ColorModifier extends TemporalAction {
+public class ColorModifier  extends AndGDXTemporalAction {
 	private float startR, startG, startB, startA;
 	private Color color;
 	private final Color end = new Color();
@@ -34,27 +34,16 @@ public class ColorModifier extends TemporalAction {
 		float a = startA + (end.a - startA) * percent;
 		color.set(r, g, b, a);
 		actor.setColor(color);
-		checkListener(percent);
+		super.update(percent);
 	}
 
-	private void checkListener(float percent) {
-		if (modifierListener != null)
-			if (percent >= 1) {
-				modifierListener.onFinished();
-			} else if (percent <= 0.1f) {
-				modifierListener.onStarted();
-			}
-
-	}
-
-	public void setModifierListener(IEntityModifierListener listener) {
-		this.modifierListener = listener;
-	}
+ 
+ 
 
 	public void reset() {
 		super.reset();
 		color = null;
-		modifierListener = null;
+ 
 	}
 
 	public Color getColor() {

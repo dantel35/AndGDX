@@ -11,12 +11,10 @@ import com.andgdx.update.UpdateHandlerList;
 import com.andgdx.util.TimeConstants;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class Engine {
+public class Engine  {
 
 	Scene mScene;
 	public static Viewport currentViewport;
@@ -32,6 +30,8 @@ public class Engine {
 	public static AssetManager assetManager;
 	
 	public static float currentAndGDXDelta;
+	
+	private com.badlogic.ashley.core.Engine ashleyEngine;
 
 	
 	
@@ -42,7 +42,7 @@ public class Engine {
 		currentViewport = options.getViewport();
 		assetManager = new AssetManager();
 		SceneManager.engine = this;
-	
+		ashleyEngine = options.getAshleyEngine();
 	}
 	
 	public static Engine getInstance()
@@ -164,7 +164,8 @@ public class Engine {
 	public  void onUpdate(float deltaTime) {
  
 		if(!paused)
-		{	 
+		{
+			ashleyEngine.update(deltaTime);
 		synchUpdate();
 		currentAndGDXDelta = deltaTime;
 		onUpdateScene(deltaTime);

@@ -12,11 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
  * 
  * @author Nathan Sweet
  */
-public class AlphaModifier extends TemporalAction {
+public class AlphaModifier extends AndGDXTemporalAction {
 	private float start, end;
 	private Color color;
 	protected IEntityModifierListener modifierListener;
 
+
+	
 	protected void begin() {
 		if (color == null)
 			color = actor.getColor();
@@ -26,33 +28,39 @@ public class AlphaModifier extends TemporalAction {
 	protected void update(float percent) {
 		color.a = start + (end - start) * percent;
 		actor.setColor(color);
-		checkListener(percent);
+		super.update(percent);
 	}
 
-	private void checkListener(float percent) {
-		if(modifierListener != null)
-		if (percent >= 1  ) {
-			modifierListener.onFinished();
-		} else if (percent <= 0.1f  ) {
-			modifierListener.onStarted();
-		}
+//	private void checkListener(float percent) {
+//		if(modifierListener != null)
+//		if (percent >= 1 && notFinishedYet ) {
+//			modifierListener.onFinished();
+//			
+//			
+//			notFinishedYet = false;
+//		} else if (firstTimeExec  ) {
+//			modifierListener.onStarted();
+//			firstTimeExec = false;
+//		}
+//
+//	}
 
-	}
-
-	public void setModifierListener(IEntityModifierListener listener) {
-		this.modifierListener = listener;
-	}
+//	public void setModifierListener(IEntityModifierListener listener) {
+//		this.modifierListener = listener;
+//	}
 
 	public void reset() {
 		super.reset();
 		color = null;
-		modifierListener = null;
+//		modifierListener = null;
+//		firstTimeExec = true;
+//		notFinishedYet = true;
 	}
 	
-	public void restart () {
-		super.restart();
-	
-	}
+//	public void restart () {
+//		super.restart();
+//	
+//	}
 
 	public Color getColor() {
 		return color;

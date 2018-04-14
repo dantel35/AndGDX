@@ -19,20 +19,23 @@ package com.andgdx.entity.modifier;
 
 
 
+import com.andgdx.entity.IEntity;
 import com.andgdx.entity.modifier.listener.IEntityModifierListener;
+import com.andgdx.util.AndGDXMathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 //import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Align;
 
 
-public class JumpToModifier extends TemporalAction {
+public class JumpToModifier extends AndGDXTemporalAction {
 	private float startX, startY;
 	private float endX, endY;
 	private float mJumpHeight;
 	private float mJumpCount=1;
 	private int alignment = Align.bottomLeft;
-	protected IEntityModifierListener modifierListener;
+	private boolean firstTimeExec = true;
+//	protected IEntityModifierListener modifierListener;
 
 	protected void begin () {
 		startX = actor.getX();
@@ -44,12 +47,29 @@ public class JumpToModifier extends TemporalAction {
 		checkListener(percent);
 	}
 	
+	
+	private void updateFacingDirection()
+	{
+		IEntity entity;
+		if (actor instanceof IEntity)
+		{
+			entity = (IEntity) actor;
+			entity.setFacingDirection((int) AndGDXMathUtils.calculateRotationAngle(startX, startY, endX, endY));
+		}
+	 
+	}
+	
+	
 	private void checkListener(float percent) {
-		if(modifierListener != null)
 		if (percent >= 1  ) {
+			if(modifierListener != null)
 			modifierListener.onFinished();
-		} else if (percent <= 0.1f  ) {
+		} else if (firstTimeExec  ) {
+			if(modifierListener != null)
 			modifierListener.onStarted();
+			
+			firstTimeExec = false;
+			updateFacingDirection();
 		}
 
 	}
@@ -64,13 +84,14 @@ public class JumpToModifier extends TemporalAction {
 	public void reset () {
 		super.reset();
 		alignment = Align.bottomLeft;
-		modifierListener = null;
+//		modifierListener = null;
+//		firstTimeExec = true;
 	}
 	
-	public void restart () {
-		super.restart();
-	
-	}
+//	public void restart () {
+//		super.restart();
+//	
+//	}
 
 	public void setPosition (float x, float y) {
 		endX = x;
@@ -116,8 +137,8 @@ public class JumpToModifier extends TemporalAction {
 		mJumpCount = count;
 	}
 	
-	public void setModifierListener(IEntityModifierListener listener)
-	{
-		this.modifierListener = listener;
-	}
+//	public void setModifierListener(IEntityModifierListener listener)
+//	{
+//		this.modifierListener = listener;
+//	}
 }

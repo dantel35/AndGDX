@@ -1,14 +1,18 @@
 package com.andgdx.sprite;
 
+import com.andgdx.animation.Animatable;
+import com.andgdx.animation.AnimationConfig;
 import com.andgdx.sprite.AnimatedSpriteCore.IAnimationListener;
 import com.andgdx.texture.TextureOptions;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.ObjectMap;
 
-public class AnimatedSprite extends Sprite implements IAnimatedSprite {
+public class AnimatedSprite extends Sprite implements IAnimatedSprite, Animatable {
 
 	AnimatedSpriteCore core;
+	ObjectMap<String, AnimationConfig> animationConfigMap;
 
 	// ===========================================================
 	// Constructors texturePath
@@ -329,6 +333,68 @@ public class AnimatedSprite extends Sprite implements IAnimatedSprite {
 	public void setAlpha(float alpha) {
 		if(core!=null)
 		core.setAlpha(alpha);
+	}
+
+	public void playAnimationConfig(String animationConfigKey) {
+		if (animationConfigMap != null)
+		{
+			AnimationConfig animConf = animationConfigMap.get(animationConfigKey);
+			animConf.play(this);
+		}
+		
+	}
+
+	public void addAnimationConfig(String animationConfigKey, AnimationConfig animationConfig) {
+		makeSureAnimationConfigMapExists();
+		animationConfigMap.put(animationConfigKey, animationConfig);
+		
+	}
+	
+	private void makeSureAnimationConfigMapExists()
+	{
+		if (animationConfigMap == null)
+		{
+			animationConfigMap = new ObjectMap<String, AnimationConfig>();
+		}
+	}
+
+	public void stopAnimationConfig(String animationConfigKey) {
+		if (animationConfigMap != null)
+		{
+			AnimationConfig animConf = animationConfigMap.get(animationConfigKey);
+			animConf.stop(this);
+		}
+		
+	}
+
+	public void pauseAnimationConfig(String animationConfigKey) {
+		if (animationConfigMap != null)
+		{
+			AnimationConfig animConf = animationConfigMap.get(animationConfigKey);
+			animConf.pause(this);
+		}
+		
+	}
+
+	public void resumeAnimationConfig(String animationConfigKey) {
+		if (animationConfigMap != null)
+		{
+			AnimationConfig animConf = animationConfigMap.get(animationConfigKey);
+			animConf.resume(this);
+		}
+		
+	}
+
+	public AnimationConfig getAnimationConfig(String animationConfigKey) {
+
+		AnimationConfig animConf = null;
+		if (animationConfigMap != null)
+		{
+			 animConf = animationConfigMap.get(animationConfigKey);
+		}
+		
+		
+		return animConf;
 	}
 	
 	
