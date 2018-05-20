@@ -45,11 +45,13 @@ public class MoveToModifier  extends TemporalAction implements IEntityModifier {
 			
 			notFinishedYet = false;
 		} else if (firstTimeExec  ) {
+			updateFacingDirection();
 			if(modifierListener != null)
-			modifierListener.onStarted((IEntity) actor);
+			{
+				modifierListener.onStarted((IEntity) actor);				
+			}
 			
 			firstTimeExec = false;
-			updateFacingDirection();
 		}
 
 	}

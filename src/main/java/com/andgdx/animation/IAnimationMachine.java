@@ -16,8 +16,8 @@ public interface IAnimationMachine {
 	public void stop();
 	public void setEntity(IEntity entity);
 	/**
-	 * Example: animationType is the type of animation you want to configert. A good example is "walk".
-	 * anmiationName is the name of the actual animation - e.g. "run_left".
+	 * Example: 
+	 * animationType is the general type of animation you want to configure. For example "walk" or even "move".
 	 * neededStates describes the states that this AnimationMachine needs to have in order to play the needed animation.
 	 * @param animationType
 	 * @param animationName

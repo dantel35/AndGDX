@@ -65,11 +65,11 @@ public class JumpToModifier extends AndGDXTemporalAction implements IEntityModif
 			if(modifierListener != null)
 			modifierListener.onFinished((IEntity) actor);
 		} else if (firstTimeExec  ) {
+			updateFacingDirection();
 			if(modifierListener != null)
 			modifierListener.onStarted((IEntity) actor);
 			
 			firstTimeExec = false;
-			updateFacingDirection();
 		}
 
 	}
