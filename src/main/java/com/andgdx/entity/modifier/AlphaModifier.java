@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
  * 
  * @author Nathan Sweet
  */
-public class AlphaModifier extends AndGDXTemporalAction {
+public class AlphaModifier extends AndGDXTemporalAction implements IEntityModifier {
 	private float start, end;
 	private Color color;
 	protected IEntityModifierListener modifierListener;

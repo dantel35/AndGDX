@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
  * 
  * @author Nathan Sweet
  */
-public class ColorModifier  extends AndGDXTemporalAction {
+public class ColorModifier  extends AndGDXTemporalAction implements IEntityModifier{
 	private float startR, startG, startB, startA;
 	private Color color;
 	private final Color end = new Color();

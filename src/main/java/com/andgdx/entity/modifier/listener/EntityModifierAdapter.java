@@ -1,21 +1,11 @@
 package com.andgdx.entity.modifier.listener;
 
-public class EntityModifierAdapter {
+public abstract class EntityModifierAdapter implements IEntityModifierListener{
 	
-	/**
-	 * Override to use
-	 */
-	public void onFinished()
-	{
-		
-	}
+	 
+	public abstract void onFinished();
 	
-	/**
-	 * Override to use
-	 */
-	public  void onStarted()
-	{
-		
-	}
+	 
+	public  abstract void onStarted();
 
 }

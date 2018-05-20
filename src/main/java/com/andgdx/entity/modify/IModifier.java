@@ -2,9 +2,6 @@ package com.andgdx.entity.modify;
 import java.util.Comparator;
 
 
- 
-
-
 /**
  * (c) 2010 Nicolas Gramlich
  * (c) 2011 Zynga Inc.

@@ -1,19 +1,19 @@
 package com.andgdx.map;
 
 import com.andgdx.engine.Engine;
-import com.andgdx.entity.EntityCore;
+import com.andgdx.entity.Entity;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 /**
- * An TiledMapLayer that can be added to the scene as an entity.
+ * A TiledMapLayer that can be added to the scene as an entity.
  * @author Daniel Knittel
  *
  */
 
-public class AndGDXTiledMapLayer extends EntityCore{
+public class AndGDXTiledMapLayer extends AndGDXMapLayer{
 	
 	int index;
 	TiledMap map;
@@ -24,6 +24,7 @@ public class AndGDXTiledMapLayer extends EntityCore{
 	
 	public AndGDXTiledMapLayer(TiledMap map, AndGDXTiledMapRenderer renderer, int layerIndex)
 	{
+		super(map, renderer,layerIndex);
 		this.map = map;
 		this. renderer = renderer;
 		this.index = layerIndex;

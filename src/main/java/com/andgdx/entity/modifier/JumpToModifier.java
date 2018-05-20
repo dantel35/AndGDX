@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Align;
 
 
-public class JumpToModifier extends AndGDXTemporalAction {
+public class JumpToModifier extends AndGDXTemporalAction implements IEntityModifier{
 	private float startX, startY;
 	private float endX, endY;
 	private float mJumpHeight;
@@ -63,10 +63,10 @@ public class JumpToModifier extends AndGDXTemporalAction {
 	private void checkListener(float percent) {
 		if (percent >= 1  ) {
 			if(modifierListener != null)
-			modifierListener.onFinished();
+			modifierListener.onFinished((IEntity) actor);
 		} else if (firstTimeExec  ) {
 			if(modifierListener != null)
-			modifierListener.onStarted();
+			modifierListener.onStarted((IEntity) actor);
 			
 			firstTimeExec = false;
 			updateFacingDirection();

@@ -1,5 +1,6 @@
 package com.andgdx.entity.modifier;
 
+import com.andgdx.entity.IEntity;
 import com.andgdx.entity.modifier.listener.IEntityModifierListener;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
@@ -27,9 +28,9 @@ public class ScaleToModifier extends TemporalAction {
 	private void checkListener(float percent) {
 		if (modifierListener != null)
 			if (percent >= 1) {
-				modifierListener.onFinished();
+				modifierListener.onFinished((IEntity) actor);
 			} else if (percent <= 0.1f) {
-				modifierListener.onStarted();
+				modifierListener.onStarted((IEntity) actor);
 			}
 
 	}

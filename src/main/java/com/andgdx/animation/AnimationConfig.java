@@ -7,6 +7,7 @@ public abstract class AnimationConfig {
 	public boolean isPlaying = false;
 	public boolean isStopped = false;
 	public boolean isPaused = false;
+	public String name;
 
 	
 	public void play(IEntity entity)

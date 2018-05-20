@@ -2,6 +2,7 @@ package com.andgdx.entity.modifier;
 
 import com.andgdx.entity.IEntity;
 import com.andgdx.entity.modifier.listener.IEntityModifierListener;
+import com.andgdx.entity.modify.IModifier;
 import com.andgdx.util.AndGDXMathUtils;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
@@ -10,9 +11,8 @@ import com.badlogic.gdx.utils.Align;
 /**
  * Moves an actor from its current position to a specific position.
  * 
- * @author Nathan Sweet
  */
-public class MoveToModifier extends TemporalAction {
+public class MoveToModifier  extends TemporalAction implements IEntityModifier {
 	private float startX, startY;
 	private float endX, endY;
 	private int alignment = Align.bottomLeft;
@@ -41,12 +41,12 @@ public class MoveToModifier extends TemporalAction {
 		
 		if (percent >= 1) {
 			if(modifierListener != null)
-			modifierListener.onFinished();
+			modifierListener.onFinished((IEntity) actor);
 			
 			notFinishedYet = false;
 		} else if (firstTimeExec  ) {
 			if(modifierListener != null)
-			modifierListener.onStarted();
+			modifierListener.onStarted((IEntity) actor);
 			
 			firstTimeExec = false;
 			updateFacingDirection();
@@ -131,6 +131,7 @@ public class MoveToModifier extends TemporalAction {
 	public void setAlignment(int alignment) {
 		this.alignment = alignment;
 	}
+
 	
 	
 	 

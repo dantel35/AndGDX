@@ -1,9 +1,10 @@
 package com.andgdx.entity.modifier;
 
+import com.andgdx.entity.IEntity;
 import com.andgdx.entity.modifier.listener.IEntityModifierListener;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-public abstract class AndGDXTemporalAction extends TemporalAction {
+public abstract class AndGDXTemporalAction extends TemporalAction implements IEntityModifier {
 	private boolean firstTimeExec = true;
 	private boolean notFinishedYet = true;
 	protected IEntityModifierListener modifierListener;
@@ -18,13 +19,13 @@ public abstract class AndGDXTemporalAction extends TemporalAction {
 	
 		if (percent >= 1 && notFinishedYet ) {
 			if(modifierListener != null)
-			modifierListener.onFinished();
+			modifierListener.onFinished((IEntity) actor);
 			
 			
 			notFinishedYet = false;
 		} else if (firstTimeExec  ) {
 			if(modifierListener != null)
-			modifierListener.onStarted();
+			modifierListener.onStarted((IEntity) actor);
 			
 			
 			firstTimeExec = false;
