@@ -10,14 +10,29 @@ public class AnimationMachine implements IAnimationMachine {
 	ObjectMap<String, AnimationConfigBag> animationConfigMap = new ObjectMap<String, AnimationConfigBag>();
 	AnimationMachineState state = new AnimationMachineState();
 	IEntity entity;
+	boolean strict = false;
 	
 	public AnimationMachine (IEntity entity)
 	{
 		this.entity = entity;
 	}
 	
-	public AnimationMachine ()
+	/**
+	 * Setting the animation machine to strict mode means it will only play an animation
+	 * if the needed state is at least a subset of the current state of the machine.
+	 * Having the animation machine in default mode will cause it to play an animation in any case, even
+	 * if the state is not exactly matched.
+	 * @param strict
+	 */
+	public void setStrictMode(boolean strict)
 	{
+		this.strict = strict;
+	}
+	
+	
+	public AnimationMachine (boolean enableStrictMode)
+	{
+		this.strict = enableStrictMode;
 	}
 
 	
@@ -82,6 +97,7 @@ public class AnimationMachine implements IAnimationMachine {
 		{
 			bag = new AnimationConfigBag(); //make this poolable.
 		}
+		bag.setStrictMode(strict);
 		bag.add(neededState, animationConfig);
 		animationConfigMap.put(animationType, bag);
 	}

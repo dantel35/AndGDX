@@ -26,5 +26,14 @@ public interface IAnimationMachine {
 	 */
 	public void add(String animationType,AnimationConfig animationConfig, AnimationMachineState neededState);
 	public void add(String animationType,AnimationConfig animationConfig, String... states);
+	
+	/**
+	 * Setting the animation machine to strict mode means it will only play an animation
+	 * if the needed state is at least a subset of the current state of the machine.
+	 * Having the animation machine in default mode will cause it to play an animation in any case, even
+	 * if the state is not exactly matched.
+	 * @param strict
+	 */
+	public void setStrictMode(boolean strict);
 
 }

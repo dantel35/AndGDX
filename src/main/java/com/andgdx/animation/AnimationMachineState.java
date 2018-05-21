@@ -73,10 +73,7 @@ public class AnimationMachineState {
 			}
 			
 		}
-		
-//		int diff = Math.abs(machineState.states.size - this.states.size);
-//		noMatch = noMatch + diff;
-		
+
 		float result = (100.0f / (match+noMatch)) * match;
 		return (int)Math.round(result);
 	}
@@ -109,6 +106,11 @@ public class AnimationMachineState {
 		return states.toString(",");
 	}
 	
+	/**
+	 * Is this object a subset of the one passed as parameter (obj)
+	 * @param obj
+	 * @return
+	 */
 	public boolean isSubset (AnimationMachineState obj)
 	{
 		boolean result = true;

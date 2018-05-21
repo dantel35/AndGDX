@@ -9,6 +9,7 @@ public class AnimationConfigBag {
 
 	ObjectMap<AnimationMachineState,AnimationConfig> configs = new ObjectMap<AnimationMachineState,AnimationConfig>();
 	AnimationConfig currentConfig;
+	boolean strict = false;
 	
 	public void add(AnimationMachineState state, AnimationConfig config)
 	{
@@ -31,16 +32,10 @@ public class AnimationConfigBag {
 	{
 		if(currentConfig != null)
 		{
-			System.out.println("play executed " + currentConfig.isPlaying );
 			if(currentConfig.isPlaying == false)
 			{
 				currentConfig.play(entity);
-				System.out.println("currentConfig is playing");
 			}
-		}
-		else
-		{
-			System.out.println("currentConfig was null");
 		}
 	}
 	
@@ -67,8 +62,11 @@ public class AnimationConfigBag {
 		{
 			AnimationMachineState itState = keys.next();
 			tmpOverlap =  itState.overlap(state);
-			chosenState = (tmpOverlap > overlap) ? itState : chosenState;
-			overlap = (tmpOverlap > overlap) ? tmpOverlap : overlap;
+			if(passesStrictSetting(itState, state))
+			{
+				chosenState = (tmpOverlap > overlap) ? itState : chosenState;
+				overlap = (tmpOverlap > overlap) ? tmpOverlap : overlap;				
+			}
 
 		}
 		
@@ -77,6 +75,16 @@ public class AnimationConfigBag {
 			currentConfig = configs.get(chosenState);
 		}
 		 
+	}
+	
+	public void setStrictMode(boolean mode)
+	{
+		this.strict = mode;
+	}
+	
+	private boolean passesStrictSetting(AnimationMachineState neededState, AnimationMachineState offeredState)
+	{
+		return !strict || (neededState.isSubset(offeredState));
 	}
 	
 	public AnimationConfig getCurrent()
