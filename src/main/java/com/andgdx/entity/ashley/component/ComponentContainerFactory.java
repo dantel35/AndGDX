@@ -32,7 +32,7 @@ public class ComponentContainerFactory {
 		return id;
 	}
 	
-	public static ComponentContainer getUserInput(Class<ComponentContainer> type) {
+	public static ComponentContainer getComponentContainer(Class<ComponentContainer> type) {
 		return new ComponentContainer();
 	}
 

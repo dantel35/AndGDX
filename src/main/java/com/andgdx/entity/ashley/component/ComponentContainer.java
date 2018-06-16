@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.utils.ImmutableArray;
 /**
- * This is just a convenience delegator class! Wrapping ashley entity.
+ * This is just a convenience wrapper class! Wrapping ashley entity.
  * @author N
  *
  */
@@ -19,7 +19,9 @@ public class ComponentContainer extends com.badlogic.ashley.core.Entity {
 	}
 	
 	public ComponentContainer()
-	{}
+	{
+		
+	}
 
 	
 	

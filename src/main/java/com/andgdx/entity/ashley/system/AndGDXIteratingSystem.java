@@ -1,13 +1,11 @@
 package com.andgdx.entity.ashley.system;
 
 
-import com.andgdx.command.UserInputFactory;
-import com.andgdx.command.UserKeyInput;
+import com.andgdx.entity.ashley.component.CompFilter;
 import com.andgdx.entity.ashley.component.ComponentContainer;
 import com.andgdx.entity.ashley.component.ComponentContainerFactory;
 import com.andgdx.entity.ashley.component.IAndGDXComponent;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
 public class AndGDXIteratingSystem extends IteratingSystem {
@@ -17,11 +15,11 @@ public class AndGDXIteratingSystem extends IteratingSystem {
 	@SafeVarargs
 	public AndGDXIteratingSystem (Class<? extends IAndGDXComponent>... componentTypes)
 	{
-		super(Family.all(componentTypes).get());
+		super(CompFilter.all(componentTypes).get());
 	}
 	
-	public AndGDXIteratingSystem(Family family) {
-		super(family);
+	public AndGDXIteratingSystem(CompFilter filter) {
+		super(CompFilter.get());
 	}
 
 	 
@@ -32,7 +30,7 @@ public class AndGDXIteratingSystem extends IteratingSystem {
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
-		// TODO Auto-generated method stub
+		//there will only ever be as many wrappers as there are threads. low overhead.
 		ComponentContainer compCont = ComponentContainerFactory.pool(ComponentContainer.class);
 		compCont.setAshleyEntity(entity);
 		processEntity(compCont,  deltaTime);
