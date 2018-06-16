@@ -86,6 +86,8 @@ public class AnimatedSpriteCore extends  SpriteCore implements IAnimatedSprite {
 	
 	public AnimatedSpriteCore(Texture texture, int columns, int rows, TextureOptions options) {
 //		super(texture);
+		super();
+
 		this.textureOptions = options;
 		sourceTexture = texture;
 		applyFilterAndWrap(texture,options);

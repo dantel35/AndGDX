@@ -2,6 +2,7 @@ package com.andgdx.command;
 
 import com.andgdx.entity.IEntity;
 import com.andgdx.entity.modifier.AndGDXActions;
+import com.andgdx.entity.modifier.listener.IEntityModifierListener;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 
@@ -9,15 +10,21 @@ public class GoToCommand extends Command implements ICommand {
 	
 	public float x, y, duration;
 	private IEntity entity;
+	public IEntityModifierListener listener;
 	
 	public GoToCommand()
 	{}
 	
 	public GoToCommand(float x, float y, float duration) {
+	this(x,y,duration, null);
+	}
+	
+	public GoToCommand(float x, float y, float duration, IEntityModifierListener listener) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.duration = duration;
+		this.listener = listener;
 	}
 	
 	public void setFree()
@@ -28,8 +35,8 @@ public class GoToCommand extends Command implements ICommand {
 
 	public void execute(IEntity entity) {
 		this.entity = entity;
-		entity.registerEntityModifier(AndGDXActions.moveTo(x, y, duration));
-//		System.out.println("go to " + x + " " + y);
+		entity.registerEntityModifier(AndGDXActions.moveTo(x, y, duration, listener));
+		System.out.println("go to " + x + " " + y + " name: " + entity.getName());
 	}
 
 	public void reset() {

@@ -11,7 +11,9 @@ public class Sprite extends Entity{
 	protected SpriteCore core;
 	
 	protected Sprite()
-	{}
+	{
+		super();
+	}
 	
 	public Sprite(String pathName) {
 		this(new Texture(pathName), null);
@@ -38,6 +40,7 @@ public class Sprite extends Entity{
 	}
 	
 	public Sprite(TextureRegion region, TextureOptions options) {
+		super();
 		
 		core = new SpriteCore(region,options);
 		addActor(core);

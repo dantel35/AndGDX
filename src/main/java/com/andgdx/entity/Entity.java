@@ -1,7 +1,9 @@
 package com.andgdx.entity;
 
+import com.andgdx.animation.IAnimationMachine;
 import com.andgdx.camera.SimpleCamera;
 import com.andgdx.entity.ashley.component.AndGDXEntityComponent;
+import com.andgdx.entity.ashley.component.IAndGDXComponent;
 import com.andgdx.entity.collision.ICollideArea;
 import com.andgdx.entity.collision.RectangularMask;
 import com.andgdx.scene.Scene;
@@ -21,10 +23,12 @@ public class Entity extends Group implements IEntity {
 //	private float lastX,lastY, lastWidth, lastHeight;
 	int facingDirectionInDegrees;
 	int movementDirectionInDegrees;
+	IAnimationMachine animationMachine;
 	com.badlogic.ashley.core.Entity ashleyEntity = new com.badlogic.ashley.core.Entity();
 	AndGDXEntityComponent andGdxComp = new AndGDXEntityComponent();
 	public Entity() {
 		andGdxComp.andGDXEntity = this;
+		ashleyEntity.add(andGdxComp);
 	}
 
 	public void setCollideArea(ICollideArea collideArea) {
@@ -306,12 +310,12 @@ public class Entity extends Group implements IEntity {
 	}
 
 	@Override
-	public void addComponent(Component component) {
+	public void addComponent(IAndGDXComponent component) {
 		ashleyEntity.add(component);
 	}
 
 	@Override
-	public void removeComponent(Class<? extends Component> component) {
+	public void removeComponent(Class<? extends IAndGDXComponent> component) {
 		ashleyEntity.remove(component);
 		
 	}
@@ -329,7 +333,8 @@ public class Entity extends Group implements IEntity {
 
 	@Override
 	public com.badlogic.ashley.core.Entity getAshleyEntity() {
-		// TODO Auto-generated method stub
 		return ashleyEntity;
 	}
+
+
 }

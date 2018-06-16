@@ -1,55 +1,67 @@
 package com.andgdx.entity.ashley.system;
 
+import com.andgdx.animation.Animatable;
+import com.andgdx.animation.IAnimationMachine;
 import com.andgdx.command.CommandFactory;
 import com.andgdx.command.GoToCommand;
 import com.andgdx.command.UserInputFactory;
 import com.andgdx.command.UserKeyInput;
+import com.andgdx.entity.AndGDXEntityUtil;
+import com.andgdx.entity.IEntity;
 import com.andgdx.entity.ashley.component.AndGDXEntityComponent;
-import com.andgdx.entity.ashley.component.FacingDirectionComponent;
+import com.andgdx.entity.ashley.component.ComponentContainer;
+import com.andgdx.entity.ashley.component.KeyMovementComponent;
 import com.andgdx.entity.ashley.component.VelocityComponent;
-import com.badlogic.ashley.core.ComponentMapper;
+import com.andgdx.entity.modifier.listener.EntityModifierAdapter;
+import com.andgdx.entity.modifier.listener.IEntityModifierListener;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
-public class KeyMovementSystem extends IteratingSystem {
+public class KeyMovementSystem extends AndGDXIteratingSystem implements IEntitySystem{
 
-	private ComponentMapper<VelocityComponent> velocityMapper = ComponentMapper.getFor(VelocityComponent.class);
-	private ComponentMapper<AndGDXEntityComponent> entityMapper = ComponentMapper.getFor(AndGDXEntityComponent.class);
-	private float oldX, oldY;
+	
+	private CompMapper<VelocityComponent> velocityMapper = CompMapper.getFor(VelocityComponent.class);
+	private CompMapper<AndGDXEntityComponent> entityMapper = CompMapper.getFor(AndGDXEntityComponent.class);
+	private boolean wasMovingLastTick = false;
+	
+
 	
 	
 	public KeyMovementSystem() {
-		super(Family.all(FacingDirectionComponent.class,AndGDXEntityComponent.class).get());
+		super(VelocityComponent.class,AndGDXEntityComponent.class, KeyMovementComponent.class);
 	}
 
-	public void processEntity(Entity entity, float deltaTime) {
+	public void processEntity(ComponentContainer entity, float deltaTime) {
 		VelocityComponent velocity = velocityMapper.get(entity);
-		AndGDXEntityComponent andGDXEntity = entityMapper.get(entity);
-			
-		andGDXEntity.andGDXEntity.setX(velocity.x * deltaTime);
-		andGDXEntity.andGDXEntity.setY(velocity.y * deltaTime);
+		AndGDXEntityComponent andGDXComponent = entityMapper.get(entity);
+		float startX = andGDXComponent.andGDXEntity.getX();
+		float startY = andGDXComponent.andGDXEntity.getY();
+		
+		GoToCommand command;
 
 		boolean somethingPressed = false;
 		
 		try
 		{
 		 if (Gdx.input.isKeyPressed(UserKeyInput.MOVE_WEST)) {
+			 wasMovingLastTick = true;
 			 UserKeyInput input = UserInputFactory.pool(UserKeyInput.class);
-				GoToCommand command = CommandFactory.pool(GoToCommand.class);
+				  command = CommandFactory.pool(GoToCommand.class);
 				input.setID(command.getID());
-//				playerPosition.setLocation(playerPosition.x -2,playerPosition.y);
-				command.x = andGDXEntity.andGDXEntity.getCenterX() - 1*velocity.x;
-				command.y =  andGDXEntity.andGDXEntity.getCenterY();
-//				command.duration = 1;
+				
+				float westAddX = andGDXComponent.andGDXEntity.getX() - 1*velocity.x;
+				float westAddY = andGDXComponent.andGDXEntity.getY();
+				AndGDXEntityUtil.updateFacingAndMovementDirection(andGDXComponent.andGDXEntity, startX, startY, westAddX, westAddY);
+				listener.onStarted(andGDXComponent.andGDXEntity);
+
+				andGDXComponent.andGDXEntity.setX(westAddX);
+				andGDXComponent.andGDXEntity.setY(westAddY);
 
 				input.setKey(UserKeyInput.MOVE_WEST);
 			 input.setKeyPressed();
 			 somethingPressed= true;
 //			 commandCache.addCommand(command);
-			 command.execute(andGDXEntity.andGDXEntity);
 //			 client.broadcast(input);
 			 UserInputFactory.free(UserKeyInput.class, input);
 //			 command.setFree();
@@ -57,59 +69,71 @@ public class KeyMovementSystem extends IteratingSystem {
 	        
 		 }
 	        if (Gdx.input.isKeyPressed(UserKeyInput.MOVE_EAST)) {
+				 wasMovingLastTick = true;
+
 	        	UserKeyInput input = UserInputFactory.pool(UserKeyInput.class);
-				GoToCommand command = CommandFactory.pool(GoToCommand.class);
+				  command = CommandFactory.pool(GoToCommand.class);
 				input.setID(command.getID());
 				
-//				playerPosition.setLocation(playerPosition.x +2,playerPosition.y);
-				command.x = andGDXEntity.andGDXEntity.getCenterX() + 1*velocity.x;
-				command.y =  andGDXEntity.andGDXEntity.getCenterY();
-//				command.duration = 1;
+				float eastAddX = andGDXComponent.andGDXEntity.getX() + 1*velocity.x;
+				float eastAddY = andGDXComponent.andGDXEntity.getY();
+				AndGDXEntityUtil.updateFacingAndMovementDirection(andGDXComponent.andGDXEntity, startX, startY, eastAddX, eastAddY);
+				listener.onStarted(andGDXComponent.andGDXEntity);
 
+				andGDXComponent.andGDXEntity.setX(eastAddX);
+				andGDXComponent.andGDXEntity.setY(eastAddY);
 				
 	        	input.setKey(UserKeyInput.MOVE_EAST);
 				 input.setKeyPressed();
 				 somethingPressed= true;
 //				 commandCache.addCommand(command);
-				 command.execute(andGDXEntity.andGDXEntity);
 //				 client.broadcast(input);
 				 UserInputFactory.free(UserKeyInput.class, input);
 //				 CommandFactory.free(GoToCommand.class, command);
 //				 command.setFree();
 	        }
 	        if (Gdx.input.isKeyPressed(UserKeyInput.MOVE_SOUTH)) {
-	        	UserKeyInput input = UserInputFactory.pool(UserKeyInput.class);
-				GoToCommand command = CommandFactory.pool(GoToCommand.class);
-				input.setID(command.getID());
-//				playerPosition.setLocation(playerPosition.x ,playerPosition.y - 2);
-				command.x = andGDXEntity.andGDXEntity.getCenterX();
-				command.y =  andGDXEntity.andGDXEntity.getCenterY() - 1*velocity.y;
-//				command.duration = 1;
+				 wasMovingLastTick = true;
 
+	        	UserKeyInput input = UserInputFactory.pool(UserKeyInput.class);
+				  command = CommandFactory.pool(GoToCommand.class);
+				input.setID(command.getID());
+
+				float southAddX = andGDXComponent.andGDXEntity.getX();
+				float southAddY = andGDXComponent.andGDXEntity.getY() - 1*velocity.y;
+				
+				AndGDXEntityUtil.updateFacingAndMovementDirection(andGDXComponent.andGDXEntity, startX, startY, southAddX, southAddY);
+				listener.onStarted(andGDXComponent.andGDXEntity);
+
+				andGDXComponent.andGDXEntity.setX(andGDXComponent.andGDXEntity.getX());
+				andGDXComponent.andGDXEntity.setY(andGDXComponent.andGDXEntity.getY() - 1*velocity.y);
 				input.setKey(UserKeyInput.MOVE_SOUTH);
 				 input.setKeyPressed();
 				 somethingPressed= true;
 //				 commandCache.addCommand(command);
-				 command.execute(andGDXEntity.andGDXEntity);
 //				 client.broadcast(input);
 				 UserInputFactory.free(UserKeyInput.class, input);
 //				 CommandFactory.free(GoToCommand.class, command);
 //				 command.setFree();
 	        }
 	        if (Gdx.input.isKeyPressed(UserKeyInput.MOVE_NORTH)) {
+				 wasMovingLastTick = true;
+
 	        	UserKeyInput input = UserInputFactory.pool(UserKeyInput.class);
-				GoToCommand command = CommandFactory.pool(GoToCommand.class);
+				  command = CommandFactory.pool(GoToCommand.class);
 				input.setID(command.getID());
-//				playerPosition.setLocation(playerPosition.x,playerPosition.y + 2);
-				command.x = andGDXEntity.andGDXEntity.getCenterX();
-				command.y =  andGDXEntity.andGDXEntity.getCenterY() + 1*velocity.y;
-//				command.duration = 1;
+				float northAddX = andGDXComponent.andGDXEntity.getX();
+				float northAddY = andGDXComponent.andGDXEntity.getY() + 1*velocity.y;
+				
+				AndGDXEntityUtil.updateFacingAndMovementDirection(andGDXComponent.andGDXEntity, startX, startY, northAddX, northAddY);
+				
+				listener.onStarted(andGDXComponent.andGDXEntity);
+				andGDXComponent.andGDXEntity.setX(andGDXComponent.andGDXEntity.getX());
+				andGDXComponent.andGDXEntity.setY(andGDXComponent.andGDXEntity.getY() + 1*velocity.y);
 
 				input.setKey(UserKeyInput.MOVE_NORTH);
 				 input.setKeyPressed();
 				 somethingPressed= true;
-//				 commandCache.addCommand(command);
-				 command.execute(andGDXEntity.andGDXEntity);
 //				 client.broadcast(input);
 				 UserInputFactory.free(UserKeyInput.class, input);
 //				 CommandFactory.free(GoToCommand.class, command);
@@ -126,9 +150,20 @@ public class KeyMovementSystem extends IteratingSystem {
 
 	        }
 	        
-	        if (somethingPressed == false)
+	        if (somethingPressed == false && wasMovingLastTick == true)
 	        {
 //	        	input.setKeyReleased();
+				 wasMovingLastTick = false;
+
+				listener.onFinished(andGDXComponent.andGDXEntity);
+
+	        }
+	        
+	        if(somethingPressed)
+	        {
+//				AndGDXEntityUtil.updateFacingAndMovementDirection(andGDXComponent.andGDXEntity, startX, startY, endX, endY);
+				listener.onStarted(andGDXComponent.andGDXEntity);
+
 	        }
 	        
 		}catch (Exception e) {
@@ -136,73 +171,40 @@ public class KeyMovementSystem extends IteratingSystem {
 		}
 	}
 	
-	
-	private float calculateRotationAngle(float fromX, float fromY, float toX, float toY) {
-//		float playerX = playerSprite.getX();
-//		float playerY = playerSprite.getY();
-//
-//		float enemyX = enemy.getX();
-//		float enemyY = enemy.getY();
+	private IEntityModifierListener listener = new EntityModifierAdapter()
+	{
+		IAnimationMachine machine;
 
-		float yKathete = fromY - toY;
-		float xKathete = fromX - toX;
-		//double tangens = xKathete / yKathete;
-		double tangens = 0;
-		float alpha=0;
-		
+		@Override
+		public void onFinished(IEntity entity) {
+			if (entity instanceof Animatable)
+			{
+				machine = ((Animatable) entity).getAnimationMachine();
+				if(machine != null)
+				{
+					System.out.println("finished");
+					machine.stop();
+					
+				}
+			}
+			
+		}
 
-		System.out.println("Rotation: xKath: " + xKathete + " yKath: " +yKathete );
-		if(yKathete > 0) //Enemy ist ueber Held
-		{
-			if(xKathete == 0)
+		@Override
+		public void onStarted(IEntity entity) {
+			if (entity instanceof Animatable)
 			{
-				alpha = 0; //0Grad
-			}
-			else if(xKathete > 0) //Gegner links vom Held
-			{
-				tangens = Math.abs(yKathete / xKathete);
-				alpha = (float) Math.toDegrees(Math.atan(tangens))+270;
-			}
-			else if(xKathete < 0) //Gegner rechts vom Held
-			{
-				tangens = Math.abs(xKathete / yKathete);
-				alpha = (float) Math.toDegrees(Math.atan(tangens));
-			}
-		}
-		else if(yKathete == 0) // gegner auf derselben hoehe
-		{
-			if(xKathete  > 0) //gegeer ist links vom held
-			{
-				alpha = 270;
-			}
-			else if(xKathete < 0) //gegner ist rechts vom held
-			{
-				alpha = 90;
-			}
-		}
-		else if(yKathete <0) //gegner ist unter Held
-		{
-			if(xKathete > 0) // gegner ist links vom Held
-			{
-				tangens = Math.abs(xKathete / yKathete);
-				alpha = (float) Math.toDegrees(Math.atan(tangens))+180;
-			}
-			else if(xKathete == 0) // gegner ist genau unter held
-			{
-				alpha = 180;
+				machine = ((Animatable) entity).getAnimationMachine();
+				if(machine != null)
+				{
+					machine.play("move");					
+				}
 				
-			}
-			else if(xKathete < 0) // gegner ist rechts vom held
-			{
-				//alpha = alpha +180;
-				tangens = Math.abs(yKathete / xKathete);
-				alpha = (float) Math.toDegrees(Math.atan(tangens))+90;
-			}
-		}
-		//alpha = (float) Math.atan(tangens)*100;
-	//alpha = Math.abs(alpha);
 
-		return alpha;
-	}
+			}
+			
+		}
+		};
+
 
 }

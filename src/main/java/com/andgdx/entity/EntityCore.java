@@ -2,7 +2,9 @@ package com.andgdx.entity;
 
 
 
+import com.andgdx.animation.IAnimationMachine;
 import com.andgdx.entity.ashley.component.AndGDXEntityComponent;
+import com.andgdx.entity.ashley.component.IAndGDXComponent;
 import com.andgdx.entity.collision.ICollideArea;
 import com.andgdx.entity.collision.RectangularMask;
 import com.andgdx.scene.Scene;
@@ -31,7 +33,10 @@ public class EntityCore extends Actor implements IEntity {
 	public boolean flippedX;
 	public boolean flippedY;
 	
- 
+	public EntityCore() {
+		andGdxComp.andGDXEntity = this;
+		ashleyEntity.add(andGdxComp);
+	}
 	
 	public void setFlippedX(boolean flippedX)
 	{
@@ -55,9 +60,7 @@ public class EntityCore extends Actor implements IEntity {
 		return flippedY;
 	}
 
-	public EntityCore() {
-		andGdxComp.andGDXEntity = this;
-	}
+
 
 	public ICollideArea getCollideArea() {
 		return collideArea;
@@ -335,12 +338,12 @@ public class EntityCore extends Actor implements IEntity {
 	}
 
 	@Override
-	public void addComponent(Component component) {
+	public void addComponent(IAndGDXComponent component) {
 		ashleyEntity.add(component);
 	}
 
 	@Override
-	public void removeComponent(Class<? extends Component> component) {
+	public void removeComponent(Class<? extends IAndGDXComponent> component) {
 		ashleyEntity.remove(component);
 		
 	}
@@ -361,5 +364,7 @@ public class EntityCore extends Actor implements IEntity {
 		// TODO Auto-generated method stub
 		return ashleyEntity;
 	}
+	
+
 	
 }

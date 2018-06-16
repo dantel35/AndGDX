@@ -16,7 +16,10 @@ public class SpriteCore extends EntityCore {
 
 	
 	protected SpriteCore()
-	{}
+	{
+		super();
+
+	}
 	
 	public SpriteCore(String pathName) {
 		this(new Texture(pathName), null);
@@ -36,6 +39,8 @@ public class SpriteCore extends EntityCore {
 	}
 
 	public SpriteCore(TextureRegion region, TextureOptions options) {
+		super();
+
 		textureRegion = region;
 		if (options != null) {
 			applyFilterAndWrap(region.getTexture(), options);

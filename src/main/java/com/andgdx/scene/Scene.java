@@ -215,6 +215,13 @@ public class Scene extends Stage {
 		stageRoot.addActor(entity);
 		children.add(entity);
 		setParent(entity, this);
+		
+		if (entity instanceof IEntity)
+		{
+			IEntity ientity = (IEntity) entity;
+			Engine.getInstance().ashleyEngine.addEntity(ientity.getAshleyEntity());
+			System.out.println("Attached ashley");
+		}
 	}
 
 	/**
@@ -364,7 +371,7 @@ public class Scene extends Stage {
 		if (entity instanceof IEntity)
 		{
 			IEntity ientity = (IEntity) entity;
-			ashleyEngine.removeEntity(ientity.getAshleyEntity());
+			Engine.getInstance().ashleyEngine.removeEntity(ientity.getAshleyEntity());
 		}
 		
 	}

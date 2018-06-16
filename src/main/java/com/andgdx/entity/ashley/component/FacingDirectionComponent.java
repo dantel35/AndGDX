@@ -1,8 +1,7 @@
 package com.andgdx.entity.ashley.component;
 
-import com.badlogic.ashley.core.Component;
 
-public class FacingDirectionComponent implements Component {
+public class FacingDirectionComponent implements IAndGDXComponent {
 	
 	float x;
 	float y;

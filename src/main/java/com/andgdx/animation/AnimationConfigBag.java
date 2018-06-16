@@ -32,10 +32,10 @@ public class AnimationConfigBag {
 	{
 		if(currentConfig != null)
 		{
-			if(currentConfig.isPlaying == false)
-			{
+//			if(currentConfig.isPlaying == false)
+//			{
 				currentConfig.play(entity);
-			}
+//			}
 		}
 	}
 	

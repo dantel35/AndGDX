@@ -2,6 +2,8 @@ package com.andgdx.engine;
 
 import com.andgdx.camera.SimpleCamera;
 import com.andgdx.engine.options.EngineOptions;
+import com.andgdx.entity.ashley.system.AndGDXEntitySystem;
+import com.andgdx.entity.ashley.system.IEntitySystem;
 import com.andgdx.scene.Scene;
 import com.andgdx.scene.SceneManager;
 import com.andgdx.update.EmptyLimiter;
@@ -10,6 +12,7 @@ import com.andgdx.update.IUpdateLimiter;
 import com.andgdx.update.UpdateHandlerList;
 import com.andgdx.util.TimeConstants;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -32,7 +35,7 @@ public class Engine  {
 	
 	public static float currentAndGDXDelta;
 	
-	private com.badlogic.ashley.core.Engine ashleyEngine;
+	public com.badlogic.ashley.core.Engine ashleyEngine;
 
 	
 	
@@ -144,6 +147,12 @@ public class Engine  {
 		}
 	}
 
+	
+		public void addSystem (IEntitySystem system)
+		{
+			ashleyEngine.addSystem((EntitySystem) system);
+		}
+	
 	/**
 	 * Returns the scene that is currently being drawn.
 	 * 

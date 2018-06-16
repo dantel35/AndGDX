@@ -2,6 +2,7 @@ package com.andgdx.sprite;
 
 import com.andgdx.animation.Animatable;
 import com.andgdx.animation.AnimationConfig;
+import com.andgdx.animation.IAnimationMachine;
 import com.andgdx.sprite.AnimatedSpriteCore.IAnimationListener;
 import com.andgdx.texture.TextureOptions;
 import com.badlogic.gdx.graphics.Color;
@@ -13,6 +14,7 @@ public class AnimatedSprite extends Sprite implements IAnimatedSprite, Animatabl
 
 	AnimatedSpriteCore core;
 	ObjectMap<String, AnimationConfig> animationConfigMap;
+	IAnimationMachine animationMachine;
 
 	// ===========================================================
 	// Constructors texturePath
@@ -88,6 +90,8 @@ public class AnimatedSprite extends Sprite implements IAnimatedSprite, Animatabl
 
 	public AnimatedSprite(TextureRegion textureRegion, int columns, int rows,
 			TextureOptions options) {
+		super();
+
 		core = new AnimatedSpriteCore(textureRegion, columns, rows, options,
 				mAnimationListener);
 		addActor(core);
@@ -397,6 +401,16 @@ public class AnimatedSprite extends Sprite implements IAnimatedSprite, Animatabl
 		return animConf;
 	}
 	
+	
+	@Override
+	public IAnimationMachine getAnimationMachine() {
+		return animationMachine;
+	}
+
+	@Override
+	public void setAnimationMachine(IAnimationMachine animationMachine) {
+		this.animationMachine = animationMachine;
+	}
 	
 
 }

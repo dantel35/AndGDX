@@ -52,7 +52,6 @@ public class AnimationMachine implements IAnimationMachine {
 	public void play(String animationType) {
 		// TODO Auto-generated method stub
 		AnimationConfigBag conf = animationConfigMap.get(animationType);
-		System.out.println("testdddd");
 		conf.play(entity);
 	}
 	
