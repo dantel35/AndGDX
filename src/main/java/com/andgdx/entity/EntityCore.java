@@ -2,9 +2,11 @@ package com.andgdx.entity;
 
 
 
+import com.andgdx.entity.ashley.component.AndGDXEntityComponent;
 import com.andgdx.entity.collision.ICollideArea;
 import com.andgdx.entity.collision.RectangularMask;
 import com.andgdx.scene.Scene;
+import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -20,12 +22,16 @@ public class EntityCore extends Actor implements IEntity {
 	Object entityType;
 	Scene parentScene;
 	int facingDirectionInDegrees;
+	int movementDirectionInDegrees;
 	private float lastX,lastY, lastWidth, lastHeight;
-
+	com.badlogic.ashley.core.Entity ashleyEntity = new com.badlogic.ashley.core.Entity();
+	private IEntity lookAtEntity;
+	AndGDXEntityComponent andGdxComp = new AndGDXEntityComponent();
 	
 	public boolean flippedX;
 	public boolean flippedY;
 	
+ 
 	
 	public void setFlippedX(boolean flippedX)
 	{
@@ -50,6 +56,7 @@ public class EntityCore extends Actor implements IEntity {
 	}
 
 	public EntityCore() {
+		andGdxComp.andGDXEntity = this;
 	}
 
 	public ICollideArea getCollideArea() {
@@ -298,15 +305,61 @@ public class EntityCore extends Actor implements IEntity {
 //		// TODO Auto-generated method stub
 //		return this.lastHeight;
 //	}
+	
+	
+	public int getMovementDirection() {
+		return movementDirectionInDegrees;
+	}
+
+	public void setMovementDirection(int movementDirectionInDegrees) {
+		this.movementDirectionInDegrees = movementDirectionInDegrees;
+	}
 
 	public int getFacingDirection() {
-		// TODO Auto-generated method stub
 		return facingDirectionInDegrees;
 	}
 
 	public void setFacingDirection(int facingDirectionInDegrees) {
-		// TODO Auto-generated method stub
 		this.facingDirectionInDegrees = facingDirectionInDegrees;
 	}
 
+	@Override
+	public void setLookAt(IEntity entity) {
+		lookAtEntity = entity;
+		
+	}
+
+	@Override
+	public IEntity getLookAt() {
+		return lookAtEntity;
+	}
+
+	@Override
+	public void addComponent(Component component) {
+		ashleyEntity.add(component);
+	}
+
+	@Override
+	public void removeComponent(Class<? extends Component> component) {
+		ashleyEntity.remove(component);
+		
+	}
+
+	@Override
+	public void removeAllComponents() {
+		ashleyEntity.removeAll();
+		
+	}
+
+	@Override
+	public boolean isScheduledForRemoval() {
+		return ashleyEntity.isScheduledForRemoval();
+	}
+
+	@Override
+	public com.badlogic.ashley.core.Entity getAshleyEntity() {
+		// TODO Auto-generated method stub
+		return ashleyEntity;
+	}
+	
 }

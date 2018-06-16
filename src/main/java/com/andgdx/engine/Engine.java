@@ -9,6 +9,7 @@ import com.andgdx.update.IUpdateHandler;
 import com.andgdx.update.IUpdateLimiter;
 import com.andgdx.update.UpdateHandlerList;
 import com.andgdx.util.TimeConstants;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -139,6 +140,7 @@ public class Engine  {
 		mScene = scene;
 		mScene.onInitialiseScene();
 		scene.setViewport(currentViewport, (int)options.getCamera().getWidth(), (int)options.getCamera().getHeight());
+		mScene.setAshleyEngine(ashleyEngine);
 		}
 	}
 

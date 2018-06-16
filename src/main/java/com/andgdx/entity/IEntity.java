@@ -1,6 +1,7 @@
 package com.andgdx.entity;
 
 import com.andgdx.entity.collision.ICollideArea;
+import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 
@@ -18,6 +19,19 @@ public interface IEntity {
 	
 	public int getFacingDirection();
 	public void setFacingDirection(int facingDirectionInDegrees);
+	
+	public int getMovementDirection();
+	public void setMovementDirection(int movementDirectionInDegrees);
+	
+	//ashley
+	public void addComponent(Component component);
+	public void removeComponent(Class<? extends Component>  component);
+	public void removeAllComponents();
+	public boolean isScheduledForRemoval ();
+	public com.badlogic.ashley.core.Entity getAshleyEntity();
+	
+	public void setLookAt(IEntity entity);
+	public IEntity getLookAt();
 	
 	
 	public void setX(float x);

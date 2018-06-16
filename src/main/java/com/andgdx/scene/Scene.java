@@ -52,6 +52,7 @@ public class Scene extends Stage {
 	private boolean debug = false;
 	private boolean paused = false;
 	Scene childscene;
+	private com.badlogic.ashley.core.Engine ashleyEngine;
 
 	public Scene(Viewport fillViewport) {
 		super(fillViewport);
@@ -360,6 +361,12 @@ public class Scene extends Stage {
 		children.remove(entity);
 
 		setParent(entity, null);
+		if (entity instanceof IEntity)
+		{
+			IEntity ientity = (IEntity) entity;
+			ashleyEngine.removeEntity(ientity.getAshleyEntity());
+		}
+		
 	}
 
 	private void setParent(Actor entity, Scene scene) {
@@ -451,6 +458,11 @@ public class Scene extends Stage {
 	public boolean isPaused()
 	{
 		return this.paused;
+	}
+
+	public void setAshleyEngine(com.badlogic.ashley.core.Engine ashleyEngine) {
+		this.ashleyEngine = ashleyEngine;
+		
 	}
 	
 

@@ -2,7 +2,6 @@ package com.andgdx.entity.ashley.system;
 
 import com.andgdx.entity.ashley.component.AndGDXEntityComponent;
 import com.andgdx.entity.ashley.component.FacingDirectionComponent;
-import com.andgdx.entity.ashley.component.VelocityComponent;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -21,6 +20,8 @@ public class SimpleFacingDirectionSystem extends IteratingSystem {
 		FacingDirectionComponent velocity = facingDirectionMapper.get(entity);
 		AndGDXEntityComponent andGDXEntity = entityMapper.get(entity);
 			
+		
+		
 //		position.x += velocity.x * deltaTime;
 //		position.y += velocity.y * deltaTime;
 	}

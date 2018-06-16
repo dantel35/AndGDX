@@ -5,6 +5,12 @@ public class UserKeyInput implements IUserInput  {
 	public int key;
 	public int type;
 	private long id;
+
+	
+
+
+	
+	
 	public static final int KEY_PRESSED = 1;
 	public static final int KEY_RELEASED = 0;
 
@@ -167,6 +173,17 @@ public class UserKeyInput implements IUserInput  {
 	public static final int F10 = 253;
 	public static final int F11 = 254;
 	public static final int F12 = 255;
+	
+	
+	
+	public static int MOVE_NORTH = UP;
+	public static int MOVE_EAST = RIGHT;
+	public static int MOVE_SOUTH = DOWN;
+	public static int MOVE_WEST = LEFT;
+	public static int MOVE_NORTH_EAST;
+	public static int MOVE_NORTH_WEST;
+	public static int MOVE_SOUTH_EAST;
+	public static int MOVE_SOUTH_WEST;
 	
 	public UserKeyInput()
 	{}

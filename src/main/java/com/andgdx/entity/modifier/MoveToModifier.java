@@ -59,10 +59,28 @@ public class MoveToModifier  extends TemporalAction implements IEntityModifier {
 	private void updateFacingDirection()
 	{
 		IEntity entity;
+		IEntity lookAtEntity;
+		int direction;
 		if (actor instanceof IEntity)
 		{
 			entity = (IEntity) actor;
-			entity.setFacingDirection((int) AndGDXMathUtils.calculateRotationAngle(startX, startY, endX, endY));
+			lookAtEntity = entity.getLookAt();
+			if (lookAtEntity == null)
+			{ 
+				direction = (int) AndGDXMathUtils.calculateRotationAngle(startX, startY, endX, endY);
+				entity.setFacingDirection(direction);				
+				entity.setMovementDirection(direction);				
+
+			}
+			else
+			{
+				direction = (int) AndGDXMathUtils.calculateRotationAngle(startX, startY, lookAtEntity.getCenterX(), lookAtEntity.getCenterY());
+
+				entity.setFacingDirection(direction);				
+				direction = (int) AndGDXMathUtils.calculateRotationAngle(startX, startY, endX, endY);
+				entity.setMovementDirection(direction);				
+				
+			}
 			System.out.println("face dir " + entity.getFacingDirection());
 		}
 	 
