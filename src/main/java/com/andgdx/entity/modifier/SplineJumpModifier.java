@@ -20,30 +20,42 @@ package com.andgdx.entity.modifier;
 
 
 import com.andgdx.entity.IEntity;
-import com.andgdx.entity.modifier.listener.IEntityModifierListener;
 import com.andgdx.util.AndGDXMathUtils;
+import com.badlogic.gdx.math.CatmullRomSpline;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 //import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Align;
 
 
-public class JumpToModifier extends AndGDXTemporalAction implements IEntityModifier{
+public class SplineJumpModifier extends AndGDXTemporalAction implements IEntityModifier{
 	private float startX, startY;
 	private float endX, endY;
 	private float mJumpHeight;
 	private float mJumpCount=1;
 	private int alignment = Align.bottomLeft;
 	private boolean firstTimeExec = true;
+	private Vector2 vecStart;
 //	protected IEntityModifierListener modifierListener;
+	private Vector2 vec2;
+	private Vector2 normVec;
+	private Vector2 vecMiddle;
+	private Vector2 vecEnd;
+	private Vector2 controlEnd;
+	private Vector2 controlStart;
+	private Vector2 jumpVector;
+	private Vector2[] controlPoints;
+	 CatmullRomSpline<Vector2> path;
 
 	protected void begin () {
 		startX = actor.getX();
 		startY = actor.getY();
+		initializeSplie();
+
 	}
 
 	protected void update (float percent) {
-		onSetValues2(actor, percent, startX, startY);
+		onSetValues(actor, percent, startX, startY);
 		checkListener(percent);
 	}
 	
@@ -73,42 +85,39 @@ public class JumpToModifier extends AndGDXTemporalAction implements IEntityModif
 		}
 
 	}
+
 	
-	protected void onSetValues(final Actor pEntity, final float pPercentageDone, final float pX, final float pY) {
-		final float fraction = (pPercentageDone * this.mJumpCount) % 1.0f;
-		final float deltaY = (this.mJumpHeight * 4 * fraction * (1 - fraction));// + (endY-startY) * (fraction);
+	private void onSetValues(final Actor pEntity, final float pPercentageDone, final float pX, final float pY) {
 		
-		float x = startX + (endX - startX) * pPercentageDone;
-		float y = startY +deltaY;
-//		y= startY + (endY - startY) * deltaY;
-		actor.setPosition(x,y , alignment);
-		System.out.println("fraction:" + fraction + " inverse fraction: " + (1-fraction) + " delta: " + deltaY +" Percentage: " + pPercentageDone + " x: " + x + " y: " + y);
+		path.valueAt(jumpVector, pPercentageDone);
+		actor.setPosition(jumpVector.x,jumpVector.y , alignment);
+		
 	}
-	
-	private void onSetValues2(final Actor pEntity, final float pPercentageDone, final float pX, final float pY) {
-		final float fraction = (pPercentageDone * this.mJumpCount) % 1.0f;
-		final float deltaY = (this.mJumpHeight * 4 * fraction * (1 - fraction));// + (endY-startY) * (1-fraction);
-		
-		float g = 9.81f;
-		float speed = 50f;
-		float nenner = (g * endX);
-		double wurzelinhalt = Math.abs(Math.pow(speed, 4) - (g* ( (g * (endX * endX)) + (2 * endY * (speed * speed)))));
-		double zaehler = speed*speed + Math.sqrt(wurzelinhalt);
-		System.out.println("nenner : " + nenner + " zaehler " + zaehler + " wurzelinhalt " + wurzelinhalt);
-		double degree =  Math.atan(zaehler/ nenner);
-			System.out.println("Degree " + degree);
-		float x = startX + (endX - startX) * pPercentageDone;
-		float y = (float) (startY + Math.tan(degree) * (endX*pPercentageDone) - (9.81f/(2*speed * (Math.cos(degree) * Math.cos(degree)))) * (endX*pPercentageDone)*(endX*pPercentageDone));
 
-		float p = 3;
-		float q = -2;
-		float b = endY;
-//		float nY = (p + q - 2 * b) * (x*x*x) * pPercentageDone + (3 * b -2 * p -q) * (x*x) * pPercentageDone + p*(x * pPercentageDone);
+	private void initializeSplie() {
+		vecStart = new Vector2(startX, startY);
+		
+		  vec2 = new Vector2(((endX+startX)/2), ((endY+startY)/2));
+		
+		  normVec = vec2.cpy().rotate90(5).nor();
+		normVec.scl((vec2.len()/10)*mJumpHeight);
+		  vecMiddle =  vec2.cpy().add(normVec);
+		  vecEnd = new Vector2(endX,endY);
+		  controlEnd = vecEnd.cpy().add(normVec.cpy().nor().rotate90(-1));
+		  controlStart = vecStart.cpy().add(normVec.cpy().nor().rotate90(-1));
 
 		
-		//		y= startY + (endY - startY) * deltaY;
-		actor.setPosition(x,y , alignment);
-		System.out.println("fraction:" + fraction + " inverse fraction: " + (1-fraction) + " delta: " + deltaY +"Percentage: " + pPercentageDone + " x: " + x + " y: " + y);
+//		  controlPoints =  {controlStart,vecStart, vecMiddle,vecEnd, controlEnd};
+		  controlPoints =  new Vector2[5];
+		  controlPoints[0] = controlStart;
+		  controlPoints[1] =vecStart;
+				  controlPoints[2] = vecMiddle;
+						  controlPoints[3] = vecEnd;
+								  controlPoints[4] =controlEnd;
+
+		   path = new CatmullRomSpline<Vector2>( controlPoints, false);
+		
+		  jumpVector = new Vector2();
 	}
 	
 
@@ -133,8 +142,7 @@ public class JumpToModifier extends AndGDXTemporalAction implements IEntityModif
 //	}
 
 	public void setPosition (float x, float y) {
-		endX = x;
-		endY = y;
+		setPosition(x,y,alignment);
 	}
 
 	public void setPosition (float x, float y, int alignment) {

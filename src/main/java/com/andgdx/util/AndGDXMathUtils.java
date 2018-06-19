@@ -2,6 +2,14 @@ package com.andgdx.util;
 
 public class AndGDXMathUtils {
 
+	/**
+	 * Clumsy implementation.
+	 * @param fromX
+	 * @param fromY
+	 * @param toX
+	 * @param toY
+	 * @return
+	 */
 	public static float calculateRotationAngle(float fromX, float fromY, float toX, float toY) {
 
 
@@ -12,7 +20,6 @@ public class AndGDXMathUtils {
 		float alpha=0;
 		
 
-//		System.out.println("Rotation: xKath: " + xKathete + " yKath: " +yKathete );
 		if(yKathete > 0) //end is above start
 		{
 			if(xKathete == 0)

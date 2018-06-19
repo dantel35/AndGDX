@@ -56,6 +56,40 @@ public class AndGDXActions {
 		action.setModifierListener(listener);
 		return action;
 	}
+	
+	
+	
+	static public SplineJumpModifier splineJumpTo(float x, float y, float height,
+			float duration) {
+
+		return splineJumpTo(x, y, height, duration, null, null);
+	}
+
+	static public SplineJumpModifier splineJumpTo(float x, float y, float height,
+			float duration, IEntityModifierListener listener) {
+
+		return splineJumpTo(x, y, height, duration, null, listener);
+	}
+
+	static public SplineJumpModifier splineJumpTo(float x, float y, float height,
+			float duration, Interpolation interpolation) {
+
+		return splineJumpTo(x, y, height, duration, interpolation, null);
+	}
+	
+	static public SplineJumpModifier splineJumpTo(float x, float y, float height,
+			float duration, Interpolation interpolation,
+			IEntityModifierListener listener) {
+		SplineJumpModifier action = pool(SplineJumpModifier.class);
+		action.setPosition(x, y);
+		action.setDuration(duration);
+		action.setJumpHeight(height);
+		action.setInterpolation(interpolation);
+		action.setModifierListener(listener);
+		return action;
+	}
+	
+	
 
 	static public MoveToModifier moveTo(float x, float y, float duration) {
 		return AndGDXActions.moveTo(x, y, duration, null, null);

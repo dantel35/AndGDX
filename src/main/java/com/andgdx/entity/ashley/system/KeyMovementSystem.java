@@ -14,7 +14,6 @@ import com.andgdx.entity.ashley.component.KeyMovementComponent;
 import com.andgdx.entity.ashley.component.VelocityComponent;
 import com.andgdx.entity.modifier.listener.EntityModifierAdapter;
 import com.andgdx.entity.modifier.listener.IEntityModifierListener;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
@@ -44,7 +43,7 @@ public class KeyMovementSystem extends AndGDXIteratingSystem implements IEntityS
 		
 		try
 		{
-		 if (Gdx.input.isKeyPressed(UserKeyInput.MOVE_WEST)) {
+		 if (Gdx.input.isKeyPressed(KeyMovementComponent.MOVE_WEST)) {
 			 wasMovingLastTick = true;
 			 UserKeyInput input = UserInputFactory.pool(UserKeyInput.class);
 				  command = CommandFactory.pool(GoToCommand.class);
@@ -61,14 +60,12 @@ public class KeyMovementSystem extends AndGDXIteratingSystem implements IEntityS
 				input.setKey(UserKeyInput.MOVE_WEST);
 			 input.setKeyPressed();
 			 somethingPressed= true;
-//			 commandCache.addCommand(command);
 //			 client.broadcast(input);
 			 UserInputFactory.free(UserKeyInput.class, input);
-//			 command.setFree();
 			 
 	        
 		 }
-	        if (Gdx.input.isKeyPressed(UserKeyInput.MOVE_EAST)) {
+	        if (Gdx.input.isKeyPressed(KeyMovementComponent.MOVE_EAST)) {
 				 wasMovingLastTick = true;
 
 	        	UserKeyInput input = UserInputFactory.pool(UserKeyInput.class);
@@ -86,13 +83,10 @@ public class KeyMovementSystem extends AndGDXIteratingSystem implements IEntityS
 	        	input.setKey(UserKeyInput.MOVE_EAST);
 				 input.setKeyPressed();
 				 somethingPressed= true;
-//				 commandCache.addCommand(command);
 //				 client.broadcast(input);
 				 UserInputFactory.free(UserKeyInput.class, input);
-//				 CommandFactory.free(GoToCommand.class, command);
-//				 command.setFree();
 	        }
-	        if (Gdx.input.isKeyPressed(UserKeyInput.MOVE_SOUTH)) {
+	        if (Gdx.input.isKeyPressed(KeyMovementComponent.MOVE_SOUTH)) {
 				 wasMovingLastTick = true;
 
 	        	UserKeyInput input = UserInputFactory.pool(UserKeyInput.class);
@@ -110,13 +104,10 @@ public class KeyMovementSystem extends AndGDXIteratingSystem implements IEntityS
 				input.setKey(UserKeyInput.MOVE_SOUTH);
 				 input.setKeyPressed();
 				 somethingPressed= true;
-//				 commandCache.addCommand(command);
 //				 client.broadcast(input);
 				 UserInputFactory.free(UserKeyInput.class, input);
-//				 CommandFactory.free(GoToCommand.class, command);
-//				 command.setFree();
 	        }
-	        if (Gdx.input.isKeyPressed(UserKeyInput.MOVE_NORTH)) {
+	        if (Gdx.input.isKeyPressed(KeyMovementComponent.MOVE_NORTH)) {
 				 wasMovingLastTick = true;
 
 	        	UserKeyInput input = UserInputFactory.pool(UserKeyInput.class);
@@ -136,9 +127,7 @@ public class KeyMovementSystem extends AndGDXIteratingSystem implements IEntityS
 				 somethingPressed= true;
 //				 client.broadcast(input);
 				 UserInputFactory.free(UserKeyInput.class, input);
-//				 CommandFactory.free(GoToCommand.class, command);
 
-//				 command.setFree();
 	        }
 	        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
 	        	UserKeyInput input = UserInputFactory.pool(UserKeyInput.class);
@@ -159,12 +148,6 @@ public class KeyMovementSystem extends AndGDXIteratingSystem implements IEntityS
 
 	        }
 	        
-	        if(somethingPressed)
-	        {
-//				AndGDXEntityUtil.updateFacingAndMovementDirection(andGDXComponent.andGDXEntity, startX, startY, endX, endY);
-				listener.onStarted(andGDXComponent.andGDXEntity);
-
-	        }
 	        
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -182,7 +165,6 @@ public class KeyMovementSystem extends AndGDXIteratingSystem implements IEntityS
 				machine = ((Animatable) entity).getAnimationMachine();
 				if(machine != null)
 				{
-					System.out.println("finished");
 					machine.stop();
 					
 				}
