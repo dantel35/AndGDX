@@ -3,11 +3,9 @@ package com.andgdx.entity.ashley.system;
 import com.andgdx.animation.Animatable;
 import com.andgdx.animation.IAnimationMachine;
 import com.andgdx.command.CommandFactory;
-import com.andgdx.command.GoToCommand;
-import com.andgdx.command.JumpToCommand;
+import com.andgdx.command.SplineJumpCommand;
 import com.andgdx.command.UserInputFactory;
 import com.andgdx.command.UserKeyInput;
-import com.andgdx.entity.AndGDXEntityUtil;
 import com.andgdx.entity.IEntity;
 import com.andgdx.entity.ashley.component.AndGDXEntityComponent;
 import com.andgdx.entity.ashley.component.CanDashComponent;
@@ -37,7 +35,7 @@ public class JumpOnSystem extends AndGDXIteratingSystem implements IEntitySystem
 	public void processEntity(ComponentContainer entity, float deltaTime) {
 		
 		AndGDXEntityComponent andGDXComponent = null;
-		JumpToCommand command;
+		SplineJumpCommand command;
 		
 		
 		boolean somethingPressed = false;
@@ -51,7 +49,7 @@ public class JumpOnSystem extends AndGDXIteratingSystem implements IEntitySystem
 			 
 			 wasMovingLastTick = true;
 			 UserKeyInput input = UserInputFactory.pool(UserKeyInput.class);
-				  command = CommandFactory.pool(JumpToCommand.class);
+				  command = CommandFactory.pool(SplineJumpCommand.class);
 				input.setID(command.getID());
 				
 				IEntity lookAtEntity = andGDXComponent.andGDXEntity.getLookAt();

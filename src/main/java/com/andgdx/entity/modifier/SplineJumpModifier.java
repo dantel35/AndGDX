@@ -101,7 +101,8 @@ public class SplineJumpModifier extends AndGDXTemporalAction implements IEntityM
 		
 		  normVec = vec2.cpy().rotate90(5).nor();
 		normVec.scl((vec2.len()/10)*mJumpHeight);
-		  vecMiddle =  vec2.cpy().add(normVec);
+//		vecMiddle =  vec2.cpy().add(normVec);
+		  vecMiddle = vec2.cpy().add(0, 10*mJumpHeight);
 		  vecEnd = new Vector2(endX,endY);
 		  controlEnd = vecEnd.cpy().add(normVec.cpy().nor().rotate90(-1));
 		  controlStart = vecStart.cpy().add(normVec.cpy().nor().rotate90(-1));
