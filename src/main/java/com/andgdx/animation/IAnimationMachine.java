@@ -8,12 +8,14 @@ public interface IAnimationMachine {
 	 * Play a type of an anmiation. Like 'walk'. Based on the states
 	 * you defined, 'walk' could map to animation 'run_left'.
 	 */
-	public void play(String animationType);
+	public IAnimationMachine play(String animationType);
 	public void addToState(String state);
 	public void removeFromState(String state);
 	public void clearState();
 	public AnimationMachineState getState();
-	public void stop();
+	public IAnimationMachine stop();
+	public IAnimationMachine chain(String animationType);
+	
 	public void setEntity(IEntity entity);
 	/**
 	 * Example: 

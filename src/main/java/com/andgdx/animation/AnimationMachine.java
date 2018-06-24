@@ -3,6 +3,7 @@ package com.andgdx.animation;
 import java.util.Iterator;
 
 import com.andgdx.entity.IEntity;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class AnimationMachine implements IAnimationMachine {
@@ -11,6 +12,7 @@ public class AnimationMachine implements IAnimationMachine {
 	AnimationMachineState state = new AnimationMachineState();
 	IEntity entity;
 	boolean strict = false;
+	Array<String> chained = new Array<String>();
 	
 	public AnimationMachine (IEntity entity)
 	{
@@ -49,10 +51,11 @@ public class AnimationMachine implements IAnimationMachine {
 			
 		}
 
-	public void play(String animationType) {
+	public IAnimationMachine play(String animationType) {
 		// TODO Auto-generated method stub
 		AnimationConfigBag conf = animationConfigMap.get(animationType);
 		conf.play(entity);
+		return this;
 	}
 	
 	public void setEntity(IEntity entity)
@@ -79,7 +82,7 @@ public class AnimationMachine implements IAnimationMachine {
 		return this.state;
 	}
 
-	public void stop() {
+	public IAnimationMachine stop() {
 		Iterator<AnimationConfigBag> values = animationConfigMap.values();
 		AnimationConfigBag animationConf = null;
 		while (values.hasNext())
@@ -87,8 +90,17 @@ public class AnimationMachine implements IAnimationMachine {
 			animationConf = values.next();
 			animationConf.stop(entity);
 		}
+		return this;
 		
 	}
+	
+	public IAnimationMachine chain(String animationType)
+	{
+		chained.add(animationType);
+		return this;
+	}
+
+	
 
 	public void add(String animationType,AnimationConfig animationConfig, AnimationMachineState neededState) {
 		AnimationConfigBag bag = animationConfigMap.get(animationType);

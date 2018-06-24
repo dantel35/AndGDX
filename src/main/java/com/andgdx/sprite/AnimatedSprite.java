@@ -411,6 +411,24 @@ public class AnimatedSprite extends Sprite implements IAnimatedSprite, Animatabl
 	public void setAnimationMachine(IAnimationMachine animationMachine) {
 		this.animationMachine = animationMachine;
 	}
+
+	@Override
+	public void addAnimationListener(com.andgdx.animation.IAnimationListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeAnimationListener(com.andgdx.animation.IAnimationListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearAnimationListeners() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

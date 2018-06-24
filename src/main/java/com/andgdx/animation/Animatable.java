@@ -14,4 +14,9 @@ public interface Animatable {
 	public IAnimationMachine getAnimationMachine();
 	public void setAnimationMachine(IAnimationMachine animationMachine);
 	
+	public void addAnimationListener(IAnimationListener listener);
+	public void removeAnimationListener(IAnimationListener listener);
+	public void clearAnimationListeners();
+	
+	
 }

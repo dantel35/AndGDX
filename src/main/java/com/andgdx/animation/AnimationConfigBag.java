@@ -11,6 +11,7 @@ public class AnimationConfigBag {
 	AnimationConfig currentConfig;
 	boolean strict = false;
 	
+	
 	public void add(AnimationMachineState state, AnimationConfig config)
 	{
 		configs.put(state,config);

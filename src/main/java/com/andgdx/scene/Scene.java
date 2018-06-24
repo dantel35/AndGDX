@@ -1,6 +1,7 @@
 package com.andgdx.scene;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.andgdx.dummies.BackgroundSpriteDummy;
@@ -60,6 +61,7 @@ public class Scene extends Stage {
 	}
 
 	public Scene() {
+		
 	}
 
 	/**
@@ -146,11 +148,40 @@ public class Scene extends Stage {
 
 	public void onUpdate(float deltaTime) {
 		if (paused == false) {
+			zOrdering();
 			onDraw();
 			act(deltaTime);
 		}
 
 		updateChildScenes(deltaTime);
+	}
+
+	private void zOrdering() {
+		children.sort(new Comparator<Actor>() {
+			@Override
+			public int compare(Actor o1, Actor o2) {
+				float y1 = o1.getY();
+				float y2 = o2.getY();
+				int result = 0;
+				if(y1 < y2)
+				{
+					result = 1;
+				}
+				else if (y1 > y2)
+				{
+					result = -1;
+				}
+				return result;
+			}
+		});
+		Actor actor;
+		for ( int i = 0; i< children.size(); i++)
+		{
+			actor = children.get( i);
+			actor.setZIndex( i);
+			
+		}
+		
 	}
 
 	public void onDraw() {
