@@ -7,17 +7,24 @@ public abstract class AnimationConfig {
 	public boolean isStopped = false;
 	public boolean isPaused = false;
 	public String name;
+	private IAnimationListener listener;
 
+	public void setListener(IAnimationListener listener)
+	{
+		this.listener = listener;
+	}
 	
 	public void play(Animatable entity)
 	{
 		isPlaying = true;
 		isStopped = false;
+		entity.setAnimationMachineListener(listener);
 		onPlay(entity);
 	};
 	
 	public void stop(Animatable entity)
 	{
+		entity.setAnimationMachineListener(listener);
 		onStop(entity);
 		isStopped = true;
 		isPlaying = false;
@@ -27,6 +34,7 @@ public abstract class AnimationConfig {
 	{
 		isPaused = true;
 		isPlaying = false;
+		entity.setAnimationMachineListener(listener);
 		onPause(entity);
 	}
 	
@@ -34,6 +42,7 @@ public abstract class AnimationConfig {
 	{
 		isPaused = false;
 		isPlaying = true;
+		entity.setAnimationMachineListener(listener);
 		onPause(entity);
 	}
 	

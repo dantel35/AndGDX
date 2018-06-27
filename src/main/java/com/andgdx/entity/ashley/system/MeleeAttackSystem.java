@@ -42,7 +42,7 @@ public class MeleeAttackSystem extends AndGDXIteratingSystem implements IEntityS
 		
 		try
 		{
-		 if (Gdx.input.isKeyPressed(CanDoMeleeDamageComponent.ATTACK_1_KEY)) {
+		 if (Gdx.input.isKeyJustPressed(CanDoMeleeDamageComponent.ATTACK_1_KEY)) {
 			 System.out.println("Doing attacvk");
 			 
 			 VelocityComponent velocity = velocityMapper.get(entity);
@@ -123,8 +123,14 @@ public class MeleeAttackSystem extends AndGDXIteratingSystem implements IEntityS
 				machine = ((Animatable) entity).getAnimationMachine();
 				if(machine != null)
 				{
-					System.out.println("ATTACKK");
-					machine.play("attack");
+					if(machine.isThisPlaying("attack"))
+					{
+						machine.chain("attack");						
+					}
+					else
+					{
+						machine.play("attack");
+					}
 				}
 				
 

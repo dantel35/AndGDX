@@ -1,6 +1,5 @@
 package com.andgdx.animation;
 
-import com.andgdx.entity.IEntity;
 
 public interface IAnimationMachine {
 	
@@ -37,5 +36,15 @@ public interface IAnimationMachine {
 	 * @param strict
 	 */
 	public void setStrictMode(boolean strict);
+	
+	/**
+	 * Check whether an animation (described by the general type, like "walk") is currently playing.
+	 * Can you help to decide whether you want to chain  (wait until the end of the current and previously chained up animation) or to play(interrupt current animation).
+	 * E.g. an attack animation could be chained if another attack is playing right now, but you would want to interrupt an idle animation for an attack.
+	 *
+	 * @param animationType
+	 * @return
+	 */
+	public boolean isThisPlaying(String animationType);
 
 }

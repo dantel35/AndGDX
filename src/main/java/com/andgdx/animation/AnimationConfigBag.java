@@ -20,12 +20,13 @@ public class AnimationConfigBag {
 	
 	public void add(AnimationMachineState state, AnimationConfig config)
 	{
-		
+		config.setListener(listener);
 		configs.put(state,config);
 	}
 	
 	public void remove(AnimationMachineState state, AnimationConfig config)
 	{
+		config.setListener(null);
 		configs.remove(state);
 	}
 

@@ -2,7 +2,6 @@ package com.andgdx.animation;
 
 import java.util.Iterator;
 
-import com.andgdx.entity.IEntity;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
@@ -13,7 +12,31 @@ public class AnimationMachine implements IAnimationMachine {
 	Animatable entity;
 	boolean strict = false;
 	Array<String> chained = new Array<String>();
-	IAnimationListener listener;
+	IAnimationListener listener = new IAnimationListener() {
+		
+		@Override
+		public void onStarted(Animatable animatable) {
+			playing = true;
+			
+		}
+		
+		@Override
+		public void onFinished(Animatable animatable) {
+			if (chained.size > 0)
+			{
+				playNextInChain();
+			}
+			else
+			{
+				playing = false;
+			}
+			
+		}
+
+		
+	};
+	private boolean playing = false;
+	private String whatIsPlaying;
 	
 	public AnimationMachine (Animatable entity)
 	{
@@ -53,9 +76,10 @@ public class AnimationMachine implements IAnimationMachine {
 		}
 
 	public IAnimationMachine play(String animationType) {
-		// TODO Auto-generated method stub
 		AnimationConfigBag conf = animationConfigMap.get(animationType);
 		conf.play(entity);
+		this.playing  = true;
+		whatIsPlaying = animationType;
 		return this;
 	}
 	
@@ -63,23 +87,25 @@ public class AnimationMachine implements IAnimationMachine {
 	{
 		this.entity= entity;
 	}
+	
+	public boolean isThisPlaying(String animationType)
+	{
+		return whatIsPlaying.equals(animationType);
+	}
 
 	public void addToState(String state) {
-		// TODO Auto-generated method stub
 		this.state.addState(state);
 		updateAnimationConfigs(this.state);
 		
 	}
 
 	public void removeFromState(String state) {
-		// TODO Auto-generated method stub
 		this.state.removeState(state);
 		updateAnimationConfigs(this.state);
 
 	}
 
 	public AnimationMachineState getState() {
-		// TODO Auto-generated method stub
 		return this.state;
 	}
 
@@ -98,9 +124,24 @@ public class AnimationMachine implements IAnimationMachine {
 	public IAnimationMachine chain(String animationType)
 	{
 		chained.add(animationType);
+		if (playing != true)
+		{
+			playNextInChain();
+		}
 		return this;
 	}
 
+	public void playNextInChain() {
+		String found=  null;
+		for(String s : chained)
+		{
+			found = s;
+			play(found);
+			break;
+		}
+		if (found != null)
+		chained.removeValue(found, false);
+	}
 	
 
 	public void add(String animationType,AnimationConfig animationConfig, AnimationMachineState neededState) {
