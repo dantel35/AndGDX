@@ -8,20 +8,22 @@ import com.andgdx.texture.TextureOptions;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class AnimatedSprite extends Sprite implements IAnimatedSprite, Animatable {
 
 	AnimatedSpriteCore core;
 	ObjectMap<String, AnimationConfig> animationConfigMap;
-	IAnimationMachine animationMachine;
+
 
 	// ===========================================================
 	// Constructors texturePath
 	// ===========================================================
 
 	private IAnimationListener mAnimationListener;
-
+	
+	
 	public AnimatedSprite(String texturePath, int columns, int rows) {
 		this(new Texture(texturePath), columns, rows, TextureOptions.NEAREST);
 	}
@@ -404,29 +406,41 @@ public class AnimatedSprite extends Sprite implements IAnimatedSprite, Animatabl
 	
 	@Override
 	public IAnimationMachine getAnimationMachine() {
-		return animationMachine;
+//		return animationMachine;
+		return core.getAnimationMachine();
 	}
 
 	@Override
 	public void setAnimationMachine(IAnimationMachine animationMachine) {
-		this.animationMachine = animationMachine;
+//		this.animationMachine = animationMachine;
+		core.setAnimationMachine(animationMachine);
 	}
 
 	@Override
 	public void addAnimationListener(com.andgdx.animation.IAnimationListener listener) {
-		// TODO Auto-generated method stub
+//		animationListeners.add(listener);
+		core.addAnimationListener(listener);
 		
 	}
 
 	@Override
 	public void removeAnimationListener(com.andgdx.animation.IAnimationListener listener) {
-		// TODO Auto-generated method stub
+//		animationListeners.removeValue(listener, false);
+		core.removeAnimationListener(listener);
 		
 	}
 
 	@Override
 	public void clearAnimationListeners() {
-		// TODO Auto-generated method stub
+//		animationListeners.clear();
+		core.clearAnimationListeners();
+		
+	}
+
+	@Override
+	public void setAnimationMachineListener(com.andgdx.animation.IAnimationListener animationMachineListener) {
+//		this.animationMachineListener = animationMachineListener;
+		core.setAnimationMachineListener(animationMachineListener);
 		
 	}
 	

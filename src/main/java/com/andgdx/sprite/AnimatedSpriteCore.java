@@ -1,5 +1,7 @@
 package com.andgdx.sprite;
 
+import com.andgdx.animation.Animatable;
+import com.andgdx.animation.IAnimationMachine;
 import com.andgdx.engine.Engine;
 import com.andgdx.texture.TextureOptions;
 import com.badlogic.gdx.graphics.Color;
@@ -7,15 +9,19 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 
-public class AnimatedSpriteCore extends  SpriteCore implements IAnimatedSprite {
+public class AnimatedSpriteCore extends  SpriteCore implements IAnimatedSprite, Animatable {
 
 	private static final int FRAMEINDEX_INVALID = -1;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
+	IAnimationMachine animationMachine;
+	private com.andgdx.animation.IAnimationListener animationMachineListener;
+	private Array<com.andgdx.animation.IAnimationListener> animationListeners = new Array<com.andgdx.animation.IAnimationListener>();
+	
 	private boolean mAnimationRunning;
 	private boolean mAnimationStartedFired;
 
@@ -203,6 +209,9 @@ public class AnimatedSpriteCore extends  SpriteCore implements IAnimatedSprite {
 					this.mAnimationListener.onAnimationFrameChanged(this,
 							AnimatedSpriteCore.FRAMEINDEX_INVALID, 0);
 				}
+				if (this.animationMachineListener != null) {
+					this.animationMachineListener.onStarted(this);
+				}
 			}
 			final long nanoSecondsElapsed = (long) (pSecondsElapsed * com.andgdx.util.TimeConstants.NANOSECONDS_PER_SECOND);
 			this.mAnimationProgress += nanoSecondsElapsed;
@@ -250,6 +259,9 @@ public class AnimatedSpriteCore extends  SpriteCore implements IAnimatedSprite {
 				this.mAnimationRunning = false;
 				if (this.mAnimationListener != null) {
 					this.mAnimationListener.onAnimationFinished(this);
+				}
+				if (this.animationMachineListener != null) {
+					this.animationMachineListener.onFinished(this);
 				}
 			}
 		}
@@ -599,6 +611,40 @@ public class AnimatedSpriteCore extends  SpriteCore implements IAnimatedSprite {
 
 		public void onAnimationFinished(final AnimatedSpriteCore pAnimatedSprite)
 		{}
+	}
+
+	@Override
+	public IAnimationMachine getAnimationMachine() {
+		return animationMachine;
+	}
+
+	@Override
+	public void setAnimationMachine(IAnimationMachine animationMachine) {
+		this.animationMachine = animationMachine;
+	}
+
+	@Override
+	public void addAnimationListener(com.andgdx.animation.IAnimationListener listener) {
+		animationListeners.add(listener);
+		
+	}
+
+	@Override
+	public void removeAnimationListener(com.andgdx.animation.IAnimationListener listener) {
+		animationListeners.removeValue(listener, false);
+		
+	}
+
+	@Override
+	public void clearAnimationListeners() {
+		animationListeners.clear();
+		
+	}
+
+	@Override
+	public void setAnimationMachineListener(com.andgdx.animation.IAnimationListener animationMachineListener) {
+		this.animationMachineListener = animationMachineListener;
+		
 	}
 
 }

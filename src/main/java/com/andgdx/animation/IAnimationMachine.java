@@ -16,7 +16,7 @@ public interface IAnimationMachine {
 	public IAnimationMachine stop();
 	public IAnimationMachine chain(String animationType);
 	
-	public void setEntity(IEntity entity);
+	public void setEntity(Animatable entity);
 	/**
 	 * Example: 
 	 * animationType is the general type of animation you want to configure. For example "walk" or even "move".

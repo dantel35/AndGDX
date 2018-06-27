@@ -10,10 +10,17 @@ public class AnimationConfigBag {
 	ObjectMap<AnimationMachineState,AnimationConfig> configs = new ObjectMap<AnimationMachineState,AnimationConfig>();
 	AnimationConfig currentConfig;
 	boolean strict = false;
+	IAnimationListener listener;
+	
+	public AnimationConfigBag(IAnimationListener listener)
+	{
+		this.listener = listener;
+	}
 	
 	
 	public void add(AnimationMachineState state, AnimationConfig config)
 	{
+		
 		configs.put(state,config);
 	}
 	
@@ -29,7 +36,7 @@ public class AnimationConfigBag {
 	}
 	
 	
-	public void play(IEntity entity)
+	public void play(Animatable entity)
 	{
 		if(currentConfig != null)
 		{
@@ -40,7 +47,7 @@ public class AnimationConfigBag {
 		}
 	}
 	
-	public void stop(IEntity entity)
+	public void stop(Animatable entity)
 	{
 		Iterator<AnimationConfig> values = configs.values();
 		AnimationConfig animationConf = null;

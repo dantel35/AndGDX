@@ -1,6 +1,5 @@
 package com.andgdx.animation;
 
-import com.andgdx.entity.IEntity;
 
 public abstract class AnimationConfig {
 	
@@ -10,37 +9,37 @@ public abstract class AnimationConfig {
 	public String name;
 
 	
-	public void play(IEntity entity)
+	public void play(Animatable entity)
 	{
 		isPlaying = true;
 		isStopped = false;
 		onPlay(entity);
 	};
 	
-	public void stop(IEntity entity)
+	public void stop(Animatable entity)
 	{
 		onStop(entity);
 		isStopped = true;
 		isPlaying = false;
 	}
 	
-	public void pause(IEntity entity)
+	public void pause(Animatable entity)
 	{
 		isPaused = true;
 		isPlaying = false;
 		onPause(entity);
 	}
 	
-	public void resume(IEntity entity)
+	public void resume(Animatable entity)
 	{
 		isPaused = false;
 		isPlaying = true;
 		onPause(entity);
 	}
 	
-	public abstract void onPlay(IEntity entity);
-	public abstract void onStop(IEntity entity);
-	public abstract void onPause(IEntity entity);
-	public abstract void onResume(IEntity entity);
+	public abstract void onPlay(Animatable entity);
+	public abstract void onStop(Animatable entity);
+	public abstract void onPause(Animatable entity);
+	public abstract void onResume(Animatable entity);
 
 }

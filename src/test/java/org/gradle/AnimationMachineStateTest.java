@@ -4,13 +4,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.andgdx.animation.Animatable;
 import com.andgdx.animation.AnimationConfig;
 import com.andgdx.animation.AnimationConfigBag;
 import com.andgdx.animation.AnimationMachineState;
+import com.andgdx.animation.IAnimationListener;
 import com.andgdx.entity.IEntity;
 
 public class AnimationMachineStateTest {
-
+	IAnimationListener listener;
 	@Test
 	public void test() {
 		
@@ -55,26 +57,26 @@ public class AnimationMachineStateTest {
 		AnimationConfig conf1 = new AnimationConfig() {
 
 			@Override
-			public void onPlay(IEntity entity) {
+			public void onPlay(Animatable entity) {
 //				SpriterEntity spriter = (SpriterEntity) entity;
 //				spriter.setAnimation(2);
 				
 			}
 
 			@Override
-			public void onStop(IEntity entity) {
+			public void onStop(Animatable entity) {
 				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
-			public void onPause(IEntity entity) {
+			public void onPause(Animatable entity) {
 				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
-			public void onResume(IEntity entity) {
+			public void onResume(Animatable entity) {
 				// TODO Auto-generated method stub
 				
 			}
@@ -83,26 +85,26 @@ public class AnimationMachineStateTest {
 		AnimationConfig conf2 = new AnimationConfig() {
 
 			@Override
-			public void onPlay(IEntity entity) {
+			public void onPlay(Animatable entity) {
 //				SpriterEntity spriter = (SpriterEntity) entity;
 //				spriter.setAnimation(2);
 				
 			}
 
 			@Override
-			public void onStop(IEntity entity) {
+			public void onStop(Animatable entity) {
 				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
-			public void onPause(IEntity entity) {
+			public void onPause(Animatable entity) {
 				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
-			public void onResume(IEntity entity) {
+			public void onResume(Animatable entity) {
 				// TODO Auto-generated method stub
 				
 			}
@@ -112,26 +114,26 @@ public class AnimationMachineStateTest {
 		AnimationConfig conf3 = new AnimationConfig() {
 
 			@Override
-			public void onPlay(IEntity entity) {
+			public void onPlay(Animatable entity) {
 //				SpriterEntity spriter = (SpriterEntity) entity;
 //				spriter.setAnimation(2);
 				
 			}
 
 			@Override
-			public void onStop(IEntity entity) {
+			public void onStop(Animatable entity) {
 				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
-			public void onPause(IEntity entity) {
+			public void onPause(Animatable entity) {
 				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
-			public void onResume(IEntity entity) {
+			public void onResume(Animatable entity) {
 				// TODO Auto-generated method stub
 				
 			}
@@ -143,7 +145,7 @@ public class AnimationMachineStateTest {
 		conf3.name = "test3";
 
 		
-		AnimationConfigBag bag = new AnimationConfigBag();
+		AnimationConfigBag bag = new AnimationConfigBag(listener);
 		bag.add(s1, conf1);
 		
 		bag.add(s2, conf2);

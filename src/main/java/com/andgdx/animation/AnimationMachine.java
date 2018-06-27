@@ -10,11 +10,12 @@ public class AnimationMachine implements IAnimationMachine {
 	
 	ObjectMap<String, AnimationConfigBag> animationConfigMap = new ObjectMap<String, AnimationConfigBag>();
 	AnimationMachineState state = new AnimationMachineState();
-	IEntity entity;
+	Animatable entity;
 	boolean strict = false;
 	Array<String> chained = new Array<String>();
+	IAnimationListener listener;
 	
-	public AnimationMachine (IEntity entity)
+	public AnimationMachine (Animatable entity)
 	{
 		this.entity = entity;
 	}
@@ -58,7 +59,7 @@ public class AnimationMachine implements IAnimationMachine {
 		return this;
 	}
 	
-	public void setEntity(IEntity entity)
+	public void setEntity(Animatable entity)
 	{
 		this.entity= entity;
 	}
@@ -106,7 +107,7 @@ public class AnimationMachine implements IAnimationMachine {
 		AnimationConfigBag bag = animationConfigMap.get(animationType);
 		if (bag == null)
 		{
-			bag = new AnimationConfigBag(); //make this poolable.
+			bag = new AnimationConfigBag(listener); //make this poolable.
 		}
 		bag.setStrictMode(strict);
 		bag.add(neededState, animationConfig);
