@@ -32,6 +32,8 @@ public class EntityCore extends Actor implements IEntity {
 	
 	public boolean flippedX;
 	public boolean flippedY;
+
+	private int layer;
 	
 	public EntityCore() {
 		andGdxComp.andGDXEntity = this;
@@ -363,6 +365,16 @@ public class EntityCore extends Actor implements IEntity {
 	public com.badlogic.ashley.core.Entity getAshleyEntity() {
 		// TODO Auto-generated method stub
 		return ashleyEntity;
+	}
+	@Override
+	public int getLayer() {
+		return this.layer;
+	}
+
+	@Override
+	public void setLayer(int layer) {
+		this.layer = layer;
+		
 	}
 	
 

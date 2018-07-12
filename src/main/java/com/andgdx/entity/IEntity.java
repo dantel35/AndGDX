@@ -10,6 +10,9 @@ public interface IEntity {
 	public float getX();
 	public float getY();
 	
+	public int getLayer();
+	public void setLayer(int layer);
+	
  
 	
 	public float getWidth();

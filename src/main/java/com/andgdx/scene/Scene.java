@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -37,6 +38,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class Scene extends Stage {
 	Batch mainBatch;
 	Camera camera;
+
 	ArrayList<Actor> children = new ArrayList<Actor>();
 	ArrayList<ChildScene> childScenes = new ArrayList<ChildScene>();
 	ArrayList<Entity> huds = new ArrayList<Entity>();
@@ -177,7 +179,7 @@ public class Scene extends Stage {
 
 	public void onUpdate(float deltaTime) {
 		if (paused == false) {
-			zOrdering();
+			zOrdering(children);
 			onDraw();
 			act(deltaTime);
 		}
@@ -190,7 +192,7 @@ public class Scene extends Stage {
 		doTheZOrdering = enable;
 	}
 
-	private void zOrdering() {
+	private void zOrdering(ArrayList<Actor> children) {
 		if(doTheZOrdering)
 		{
 			

@@ -13,14 +13,13 @@ public class AnimationMachine implements IAnimationMachine {
 	boolean strict = false;
 	Array<String> chained = new Array<String>();
 	IAnimationListener listener = new IAnimationListener() {
-		
-		@Override
+	
 		public void onStarted(Animatable animatable) {
 			playing = true;
 			
 		}
 		
-		@Override
+		
 		public void onFinished(Animatable animatable) {
 			if (chained.size > 0)
 			{

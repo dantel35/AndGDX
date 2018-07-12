@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 public class Entity extends Group implements IEntity {
 
 	ICollideArea collideArea;
+	int layer;
 	private Object userData;
 	private Object entityType;
 	private Scene parentScene;
@@ -334,6 +335,17 @@ public class Entity extends Group implements IEntity {
 	@Override
 	public com.badlogic.ashley.core.Entity getAshleyEntity() {
 		return ashleyEntity;
+	}
+
+	@Override
+	public int getLayer() {
+		return this.layer;
+	}
+
+	@Override
+	public void setLayer(int layer) {
+		this.layer = layer;
+		
 	}
 
 
