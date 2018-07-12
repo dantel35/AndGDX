@@ -2,8 +2,8 @@ package com.andgdx.sprite;
 
 import com.andgdx.entity.EntityCore;
 import com.andgdx.texture.TextureOptions;
+import com.andgdx.util.ColorUtil;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -82,8 +82,7 @@ public class SpriteCore extends EntityCore {
 	@Override
 	public void draw(Batch batch, float alpha) {
 		if (textureRegion != null) {
-			Color color = getColor();
-			batch.setColor(color.r, color.g, color.b, color.a * alpha);
+			batch.setColor(getColor().r, getColor().g, getColor().b, getColor().a * alpha);
 			 
  
 			batch.draw(textureRegion, getX(), getY());

@@ -25,7 +25,7 @@ public class MeleeAttackSystem extends AndGDXIteratingSystem implements IEntityS
 
 	private boolean wasMovingLastTick = false;
 	
-
+private boolean toggle;
 	
 	
 	public MeleeAttackSystem() {
@@ -43,7 +43,6 @@ public class MeleeAttackSystem extends AndGDXIteratingSystem implements IEntityS
 		try
 		{
 		 if (Gdx.input.isKeyJustPressed(CanDoMeleeDamageComponent.ATTACK_1_KEY)) {
-			 System.out.println("Doing attacvk");
 			 
 			 VelocityComponent velocity = velocityMapper.get(entity);
 				  andGDXComponent = entityMapper.get(entity);
@@ -125,7 +124,10 @@ public class MeleeAttackSystem extends AndGDXIteratingSystem implements IEntityS
 				{
 					if(machine.isThisPlaying("attack"))
 					{
-						machine.chain("attack");						
+						
+						alterState(machine);
+						machine.chain("attack");	
+						
 					}
 					else
 					{
@@ -138,6 +140,19 @@ public class MeleeAttackSystem extends AndGDXIteratingSystem implements IEntityS
 			
 		}
 		};
+		
+		private void alterState(IAnimationMachine machine)
+		{
+			toggle = !toggle;
+			if(toggle)
+			{
+				machine.addToState("attack2");				
+			}
+			else
+			{
+				machine.removeFromState("attack2");
+			}
+		}
 
 
 }

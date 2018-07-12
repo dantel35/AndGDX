@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
  * color. Note this action transitions from the color at the time the action
  * starts to the specified color.
  * 
- * @author Nathan Sweet
+ * @author Nathan Sweet - original author, this is a tweaked class
  */
 public class ColorModifier  extends AndGDXTemporalAction implements IEntityModifier{
 	private float startR, startG, startB, startA;
@@ -20,7 +20,7 @@ public class ColorModifier  extends AndGDXTemporalAction implements IEntityModif
 
 	protected void begin() {
 		if (color == null)
-			color = actor.getColor();
+			color =  actor.getColor();
 		startR = color.r;
 		startG = color.g;
 		startB = color.b;

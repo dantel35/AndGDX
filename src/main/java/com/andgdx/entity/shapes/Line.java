@@ -23,6 +23,16 @@ public class Line extends Rectangle{
 		
 	}
 	
+	public Line(float fromX, float fromY, float toX, float toY, Color color, float lineWidth)
+	{
+		this((int) fromX, (int) fromY, (int) toX, (int) toY, color, (int) lineWidth);
+	}
+	
+	public Line(float fromX, float fromY, float toX, float toY,float lineWidth)
+	{
+		this((int) fromX, (int) fromY, (int) toX, (int) toY, Color.BLACK, (int) lineWidth);
+	}
+	
 	public void setColor(Color color)
 	{
 		super.setColor(color);

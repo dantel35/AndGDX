@@ -31,19 +31,19 @@ public class Text extends EntityCore implements IEntity {
 	GlyphLayout layout = new GlyphLayout();
 	
 	public Text(int x, int y, String text) {
-		this(x, y, text, Color.BLACK, currentAlign);
+		this(x, y, text, Color.BLACK, getCurrentAlignment());
 	}
 	
 	public Text(int x, int y, BitmapFont font, String text) {
-		this(x, y,font, text, Color.BLACK, currentAlign,null);
+		this(x, y,font, text, Color.BLACK, getCurrentAlignment(),null);
 	}
 	
 	public Text(int x, int y, String text, Color color) {
-		this(x, y, text, color, currentAlign);
+		this(x, y, text, color, getCurrentAlignment());
 	}
 	
 	public Text(int x, int y, BitmapFont font, String text, Color color) {
-		this(x, y, font, text, color, currentAlign,null);
+		this(x, y, font, text, color, getCurrentAlignment(),null);
 	}
 
 //	public Text(int x, int y, String text, Color color, HAlignment align) {
@@ -126,7 +126,7 @@ public class Text extends EntityCore implements IEntity {
 //	}
 	public void setText(String newText) {
 		text = newText;
-		layout.setText(font,text);
+		layout.setText(getFont(),getText());
 		this.width = layout.width;
 		this.height = layout.height;
 	}
@@ -174,10 +174,25 @@ public class Text extends EntityCore implements IEntity {
 //		font.drawMultiLine(batch, text, getX(), getY(), getWidth() + 20, currentAlign);
 		
 		
-		layout.setText(font,text);
-		font.draw(batch, text, getX(), getY(), getWidth() + 20, currentAlign, true);
+		layout.setText(getFont(),getText());
+		getFont().draw(batch, getText(), getX(), getY(), getWidth() + 20, getCurrentAlignment(), true);
 
 		super.draw(batch, alpha);
 
 	}
+
+	public static int getCurrentAlignment() {
+		return currentAlign;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public BitmapFont getFont() {
+		return font;
+	}
+	
+	
+	
 }

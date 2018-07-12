@@ -10,7 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
  * alpha to the new alpha. Note this action transitions from the alpha at the
  * time the action starts to the specified alpha.
  * 
- * @author Nathan Sweet
+ * @author Nathan Sweet - original author
+ * @author Daniel Knittel - tweaked class
  */
 public class AlphaModifier extends AndGDXTemporalAction implements IEntityModifier {
 	private float start, end;
@@ -21,7 +22,7 @@ public class AlphaModifier extends AndGDXTemporalAction implements IEntityModifi
 	
 	protected void begin() {
 		if (color == null)
-			color = actor.getColor();
+			color =actor.getColor();
 		start = color.a;
 	}
 

@@ -35,9 +35,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  * @author Janina Knittel
  */
 public class Scene extends Stage {
-
+	Batch mainBatch;
+	Camera camera;
 	ArrayList<Actor> children = new ArrayList<Actor>();
 	ArrayList<ChildScene> childScenes = new ArrayList<ChildScene>();
+	ArrayList<Entity> huds = new ArrayList<Entity>();
 	Color backgroundColor = Color.BLACK;
 	BackgroundSprite backgroundEntity;
 	BackgroundSprite backgroundEntityDefault;
@@ -53,6 +55,7 @@ public class Scene extends Stage {
 	private boolean debug = false;
 	private boolean paused = false;
 	Scene childscene;
+	boolean doTheZOrdering = true;
 	private com.badlogic.ashley.core.Engine ashleyEngine;
 
 	public Scene(Viewport fillViewport) {
@@ -61,6 +64,29 @@ public class Scene extends Stage {
 	}
 
 	public Scene() {
+		
+	}
+	
+	public Batch getMainBatch()
+	{
+		mainBatch = this.getBatch();
+		return mainBatch;
+	}
+	
+	public void attachToHUD(Entity entity, int layer)
+	{
+		Entity hud;
+		if (huds.size() <= layer)
+		{
+			  hud =  new Entity();
+			huds.add(hud);
+		}
+		else
+		{
+			hud = huds.get(layer);
+		}
+		hud.attachChild(entity);
+		this.safeAttach(hud);
 		
 	}
 
@@ -73,6 +99,7 @@ public class Scene extends Stage {
 	public void attachChildScene(ChildScene childScene) {
 		childScenes.add(childScene);
 		childScene.setParent(this);
+		childScene.init();
 	}
 
 	/**
@@ -97,6 +124,8 @@ public class Scene extends Stage {
 			for (Scene scene : childScenes) {
 				scene.onUpdate(deltaTime);
 			}
+	
+		
 	}
 
 	/**
@@ -155,8 +184,16 @@ public class Scene extends Stage {
 
 		updateChildScenes(deltaTime);
 	}
+	
+	public void setAutoZOrdering(boolean enable)
+	{
+		doTheZOrdering = enable;
+	}
 
 	private void zOrdering() {
+		if(doTheZOrdering)
+		{
+			
 		children.sort(new Comparator<Actor>() {
 			@Override
 			public int compare(Actor o1, Actor o2) {
@@ -181,7 +218,26 @@ public class Scene extends Stage {
 			actor.setZIndex( i);
 			
 		}
-		
+		}
+		updateHUD();
+		 
+	}
+	
+	
+	private void updateHUD()
+	{
+		Entity actor;
+		int z = 0;
+		for ( int i = 0; i< huds.size(); i++)
+		{
+			actor = huds.get( i);
+			++z;
+			z = z + children.size();
+			actor.setZIndex( z);
+			actor.setX(viewport.getCamera().position.x - viewport.getCamera().viewportWidth/2);
+			actor.setY(viewport.getCamera().position.y - viewport.getCamera().viewportHeight/2);
+			
+		}
 	}
 
 	public void onDraw() {
@@ -189,7 +245,8 @@ public class Scene extends Stage {
 	}
 
 	public void draw() {
-		Camera camera = viewport.getCamera();
+			
+		camera = getViewport().getCamera();
 		camera.update();
 
 		if (!getRoot().isVisible())
@@ -200,26 +257,28 @@ public class Scene extends Stage {
 				this.getBackgroundColor().a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		Batch batch = this.getBatch();
-		if (batch != null) {
-			batch.setProjectionMatrix(camera.combined);
-			batch.begin();
-			drawHandler.preDraw(batch, camera);
-			backgroundEntity.draw(batch, camera.position.x
+		mainBatch = this.getBatch();
+		if (mainBatch != null) {
+			mainBatch.setProjectionMatrix(camera.combined);
+			mainBatch.begin();
+			drawHandler.preDraw(mainBatch, camera);
+			backgroundEntity.draw(mainBatch, camera.position.x
 					- camera.viewportWidth / 2, camera.position.y
 					- camera.viewportHeight / 2, camera.viewportWidth,
 					camera.viewportHeight);
-			parallaxBackground.draw((OrthographicCamera) camera, batch);
-			drawHandler.onDraw(batch, camera);
-			getRoot().draw(batch, 1);
-			drawHandler.postDraw(batch, camera);
+			parallaxBackground.draw((OrthographicCamera) camera, mainBatch);
+			drawHandler.onDraw(mainBatch, camera);
+			getRoot().draw(mainBatch, 1);
+			drawHandler.postDraw(mainBatch, camera);
 			if (debug)
-				debugCollideAreaDraw(batch);
-			batch.end();
+				debugCollideAreaDraw(mainBatch);
+			mainBatch.end();
 
-			drawHandler.postBatchEndDraw(batch, camera);
+			drawHandler.postBatchEndDraw(mainBatch, camera);
 		}
 	}
+	
+
 
 	private void debugCollideAreaDraw(Batch batch) {
 		for (Actor entity : children) {
@@ -320,9 +379,18 @@ public class Scene extends Stage {
 		this.screenHeight = screenHeight;
 		updateViewport();
 	}
+	
+	public Viewport getViewport()
+	{
+		if (viewport == null)
+		{
+			Engine.getCamera().getViewport();
+		}
+		return viewport;
+	}
 
 	public void updateViewport() {
-		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
+		getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
 				false);
 		
 		float pixelWidth = Gdx.graphics.getBackBufferWidth(); 
@@ -345,10 +413,10 @@ public class Scene extends Stage {
 		OrthographicCamera cam = (OrthographicCamera) Engine.getCamera().getViewport().getCamera();
 //		cam.zoom = 2-heightRatio;
 		
-		float screenWidth = viewport.getScreenWidth();
-		float screenHeight = viewport.getScreenHeight();
-		float worldWidth = viewport.getWorldWidth();
-		float worldHeight = viewport.getWorldHeight();
+		float screenWidth = getViewport().getScreenWidth();
+		float screenHeight = getViewport().getScreenHeight();
+		float worldWidth = getViewport().getWorldWidth();
+		float worldHeight = getViewport().getWorldHeight();
 
 		
 		System.out.println("Ratio is width: " + widthRatio + " height: " + heightRatio);

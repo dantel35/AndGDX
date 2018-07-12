@@ -14,6 +14,7 @@ public class RectangleCore extends EntityCore implements IEntity{
 	Texture texture;
 	Sprite sprite;
 	Color color = Color.WHITE;
+	Pixmap pixmap;
 	public RectangleCore()
 	{
 		this(0,0,1,1);
@@ -22,7 +23,7 @@ public class RectangleCore extends EntityCore implements IEntity{
 	public RectangleCore(int x, int y,int width, int height)
 	{
 		
-		Pixmap pixmap = new Pixmap( width, height, Format.RGBA8888 );
+		  pixmap = new Pixmap( width, height, Format.RGBA8888 );
 		pixmap.setColor(Color.WHITE);
 		pixmap.fillRectangle(0, 0, width, height);
 		
@@ -34,6 +35,8 @@ public class RectangleCore extends EntityCore implements IEntity{
 		pixmap.dispose();
 		
 	}
+	
+
  
 	
 	@Override
@@ -41,7 +44,7 @@ public class RectangleCore extends EntityCore implements IEntity{
 		
 		if (texture != null) {
 			batch.setColor(getColor().r,getColor().g, getColor().b, getColor().a * alpha);
-			batch.draw(texture, getX(), getY());
+			batch.draw(texture, getX(), getY(), getWidth(), getHeight());
 			batch.setColor(Color.WHITE);
 		}
 

@@ -258,12 +258,12 @@ public class SimpleCamera implements IUpdateHandler {
 		return this.mHUD;
 	}
 
-	public void setHUD(final HUD pHUD) {
-		this.mHUD = pHUD;
-		if (pHUD != null) {
-			pHUD.setCamera(this);
-		}
-	}
+//	public void setHUD(final HUD pHUD) {
+//		this.mHUD = pHUD;
+//		if (pHUD != null) {
+//			pHUD.setCamera(this);
+//		}
+//	}
 
 	public boolean hasHUD() {
 		return this.mHUD != null;
@@ -311,9 +311,9 @@ public class SimpleCamera implements IUpdateHandler {
 			this.mUpdateHandlers.onUpdate(pSecondsElapsed);
 		}
 
-		if (this.mHUD != null) {
-			this.mHUD.onUpdate(pSecondsElapsed);
-		}
+//		if (this.mHUD != null) {
+//			this.mHUD.onUpdate(pSecondsElapsed);
+//		}
 
 		this.updateChaseEntity();
 		this.checkShake(pSecondsElapsed);

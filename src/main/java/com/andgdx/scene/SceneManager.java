@@ -18,7 +18,6 @@ public class SceneManager {
 	 */
 	public static void scheduleScene(Scene scene, AssetPack pack)
 	{
-		System.out.println("schedule scene");
 		if(engine!=null)
 		{
 			scheduledScene = scene;
@@ -57,7 +56,6 @@ public class SceneManager {
 	}
 	
 	private static void prepareLoadingScene(AssetPack pack) {
-		System.out.println("prepare loading scene");
 		if(loadingScene == null)
 		{
 			loadingScene = new BaseLoadingScene();
@@ -86,9 +84,9 @@ public class SceneManager {
 	{
 		if(engine != null && scheduledScene != null)
 		{
- 
-			lifecycleScene(scheduledScene);
+			//war andersherum
 			engine.setScene(scheduledScene);
+			lifecycleScene(scheduledScene);
 		}
 	}
 	
